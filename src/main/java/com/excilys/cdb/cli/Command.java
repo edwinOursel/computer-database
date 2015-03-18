@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.excilys.cdb.exception.ServiceException;
+import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.service.CompanyService;
 import com.excilys.cdb.service.ComputerService;
@@ -216,8 +217,9 @@ public enum Command {
 		}
 		System.out.println("Company id : ");
 		if (ctx.getScanner().hasNextToken()) {
-			computer.setCompanyId(Long.valueOf(ctx.getScanner()
-					.getNextToken()));
+			Company c = new Company();
+			c.setId(Long.valueOf(ctx.getScanner().getNextToken()));
+			computer.setCompany(c);
 		}
 	}
 

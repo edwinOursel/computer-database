@@ -1,7 +1,5 @@
 package com.excilys.cdb.validation;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.regex.Pattern;
 
 public enum ComputerDatabaseValidator {
@@ -13,18 +11,10 @@ public enum ComputerDatabaseValidator {
 	 * @param inputString The input string
 	 * @return True, if successful
 	 */
-	public boolean validateDate(String inputString) {
-		SimpleDateFormat format = new java.text.SimpleDateFormat(
-				"yyyy-MM-dd HH:mm:ss");
-		try {
-			format.parse(inputString);
-			Pattern p = Pattern
-					.compile("^\\d{4}[-]?\\d{1,2}[-]?\\d{1,2} \\d{1,2}:\\d{1,2}:\\d{1,2}");
-			return p.matcher(inputString).matches();
-		} catch (ParseException e) {
-			System.out.println("ParseException");
-			return false;
-		}
+	public boolean validateDate(String inputString) {			
+		Pattern p = Pattern
+				.compile("^\\d{4}[-]?(0[1-9]|1[0-2])[-]?([0-2][1-9]|3[0-1]) ([0-1][1-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]");
+		return p.matcher(inputString).matches();		
 	}
 
 }

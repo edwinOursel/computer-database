@@ -15,7 +15,7 @@ public enum ComputerService {
 		try {
 			return ComputerDAO.INSTANCE.getAll();
 		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage());
+			throw new ServiceException(e);
 		}
 	}
 	
@@ -26,7 +26,7 @@ public enum ComputerService {
 		try {
 			return ComputerDAO.INSTANCE.getAll(page);
 		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage());
+			throw new ServiceException(e);
 		}
 	}
 
@@ -37,7 +37,7 @@ public enum ComputerService {
 		try {
 			return ComputerDAO.INSTANCE.getById(id);
 		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage());
+			throw new ServiceException(e);
 		}
 	}
 
@@ -48,7 +48,7 @@ public enum ComputerService {
 		try {
 			return ComputerDAO.INSTANCE.create(computer);
 		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage());
+			throw new ServiceException(e);
 		}
 	}
 
@@ -59,7 +59,7 @@ public enum ComputerService {
 		try {
 			ComputerDAO.INSTANCE.update(computer);
 		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage());
+			throw new ServiceException(e);
 		}
 	}
 
@@ -70,7 +70,7 @@ public enum ComputerService {
 		try {
 			ComputerDAO.INSTANCE.delete(id);
 		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage());
+			throw new ServiceException(e);
 		}
 	}
 }

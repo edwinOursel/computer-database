@@ -14,7 +14,7 @@ public enum CompanyService {
 		try {
 			return CompanyDAO.INSTANCE.getAll();
 		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage());
+			throw new ServiceException(e);
 		}
 	}
 }

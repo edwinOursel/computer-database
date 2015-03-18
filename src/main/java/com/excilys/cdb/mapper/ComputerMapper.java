@@ -4,6 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
+import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
 public class ComputerMapper implements Mapper<Computer> {
@@ -24,7 +25,13 @@ public class ComputerMapper implements Mapper<Computer> {
 		if (t != null) {
 			computer.setDiscontinued(t.toLocalDateTime());
 		}
-		computer.setCompanyId(res.getLong("company_id"));
+		final Long companyId = res.getLong("company_id");
+		if (companyId > 0) {
+			final Company company = new Company();
+			company.setId(companyId);
+			company.setName(res.getString("compa.name"));
+			computer.setCompany(company);
+		}
 		return computer;
 	}
 

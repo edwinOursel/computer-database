@@ -104,10 +104,10 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 			} else {
 				pStatement.setTimestamp(4, null);
 			}
-			if (entity.getCompanyId() == 0) {
+			if (entity.getCompany() == null) {
 				pStatement.setObject(5, null);
 			} else {
-				pStatement.setLong(5, entity.getCompanyId());
+				pStatement.setLong(5, entity.getCompany().getId());
 			}
 			pStatement.execute();
 			
@@ -144,10 +144,10 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 			} else {
 				pStatement.setTimestamp(3, null);
 			}
-			if (entity.getCompanyId() == 0) {
+			if (entity.getCompany() == null) {
 				pStatement.setObject(4, null);
 			} else {
-				pStatement.setLong(4, entity.getCompanyId());
+				pStatement.setLong(4, entity.getCompany().getId());
 			}
 			pStatement.setLong(5, entity.getId());
 			pStatement.execute();
