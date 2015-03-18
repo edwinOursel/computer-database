@@ -158,6 +158,7 @@ public enum Command {
 			if (ctx == null) {
 				throw new IllegalArgumentException();
 			}
+			System.out.println("Program terminated");
 			ctx.getScanner().setExit(true);
 		}
 
