@@ -3,9 +3,7 @@ package com.excilys.cdb.service;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -120,10 +118,14 @@ public class ComputerServiceTest {
 		computer.setId(idCompany);
 		LocalDateTime t = LocalDateTime.now();
 		computer.setIntroduced(t);
+		LocalDateTime t2 = LocalDateTime.now();
+		computer.setDiscontinued(t2);
+		computer.setName("Hal9000");
 				
 		try {
 			c.create(computer);
 		} catch (ServiceException e) {
+			e.printStackTrace();
 			fail("create : should not throw an exception");
 		}
 		
@@ -132,13 +134,16 @@ public class ComputerServiceTest {
 			Assert.assertEquals(idComputer, computer.getId());
 			Assert.assertEquals(computer.getCompany().getId(), idCompany);
 			Assert.assertEquals(computer.getIntroduced(), t);
+			Assert.assertEquals(computer.getDiscontinued(), t2);
 		} catch (ServiceException e) {
+			e.printStackTrace();
 			fail("get by id : should not throw an exception");
 		}
 		
 		try {
 			c.delete(idComputer);
 		} catch (ServiceException e) {
+			e.printStackTrace();
 			fail("delete : should not throw an exception");
 		}
 		

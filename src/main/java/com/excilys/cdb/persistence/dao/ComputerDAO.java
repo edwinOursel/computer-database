@@ -28,7 +28,8 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 		try (final Statement state = ComputerDatabaseConnection.INSTANCE
 				.getInstance().createStatement()) {
 			try (final ResultSet rs = state
-					.executeQuery("SELECT * FROM " + COMPUTER_TABLE)) {
+					.executeQuery("SELECT * FROM " + COMPUTER_TABLE + " compu LEFT OUTER JOIN company"
+							+ " compa ON compu.company_id = compa.id")) {
 				while (rs.next()) {
 					computers.add(computerMapper.rowMap(rs));
 				}
@@ -43,8 +44,10 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 	public List<Computer> getAll(Page page) throws DAOException {
 		final List<Computer> computers = new ArrayList<>();
 		final ComputerMapper computerMapper = new ComputerMapper();
-		final String sql = "SELECT * FROM " + COMPUTER_TABLE + " ORDER BY %s %s LIMIT %d OFFSET %d";
-
+		final String sql = "SELECT * FROM " + COMPUTER_TABLE + " compu LEFT OUTER JOIN company"
+			+ " compa ON compu.company_id = compa.id"
+			+ " ORDER BY ? ? LIMIT ? OFFSET ?";
+		//TODO mode preparedstatement
 		try (final Statement state = ComputerDatabaseConnection.INSTANCE
 				.getInstance().createStatement()) {
 			try (final ResultSet rs = state.executeQuery(String.format(sql,
@@ -64,7 +67,8 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 	@Override
 	public Computer getById(Long id) throws DAOException {
 		final ComputerMapper computerMapper = new ComputerMapper();
-		final String sql = "SELECT * FROM "+ COMPUTER_TABLE +" WHERE id = ?";
+		final String sql = "SELECT * FROM "+ COMPUTER_TABLE +" compu LEFT OUTER JOIN company"
+				+ " compa ON compu.company_id = compa.id WHERE compu.id = ?";
 
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
 				.getInstance().prepareStatement(sql)) {
