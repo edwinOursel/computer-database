@@ -11,7 +11,7 @@ public enum CompanyService {
 	INSTANCE;
 
 	public List<Company> getAll() throws ServiceException {
-		try {
+		try {			
 			return CompanyDAO.INSTANCE.getAll();
 		} catch (DAOException e) {
 			throw new ServiceException(e);
