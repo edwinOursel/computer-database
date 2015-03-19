@@ -6,6 +6,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.cdb.exception.ServiceException;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
@@ -17,6 +20,7 @@ import com.excilys.cdb.validation.ComputerDatabaseValidator;
  * Pattern command for the processing of actions.
  */
 public enum Command {
+	
 	/**
 	 * Retrieve all computers.
 	 */
@@ -30,6 +34,8 @@ public enum Command {
 			}
 			ctx.setComputers(ComputerService.INSTANCE.getAll());
 			System.out.println(ctx.getComputers());
+			logger.info("Computers list printed with command getAllComputers");
+			logger.debug(ctx.getComputers().toString());
 		}
 
 	},
@@ -46,6 +52,8 @@ public enum Command {
 			}
 			ctx.setCompanies(CompanyService.INSTANCE.getAll());
 			System.out.println(ctx.getCompanies());
+			logger.info("Companies list printed with command getAllCompanies");
+			logger.debug(ctx.getCompanies().toString());
 		}
 
 	},
@@ -65,6 +73,8 @@ public enum Command {
 			ctx.setComputers(Arrays.asList(ComputerService.INSTANCE.getById(ctx
 					.getComputerId())));
 			System.out.println(ctx.getComputers());
+			logger.info("Computer printed with command getByIdComputer");
+			logger.debug(ctx.getComputers().toString());
 		}
 
 	},
@@ -86,8 +96,12 @@ public enum Command {
 					.getNewComputer()));
 			if (ctx.getComputerId() > 0) {
 				System.out.println("Successfully created");
+				logger.info("Successful attempt to create a computer with command createComputer");
+				logger.debug(ctx.getComputers().toString());
 			} else {
 				System.out.println("Failed to create");
+				logger.info("Failed attempt to create a computer with command createComputer");
+				logger.debug(String.valueOf(ctx.getComputerId()));
 			}
 		}
 
@@ -110,6 +124,8 @@ public enum Command {
 			ctx.setNewComputer(computer);
 			ComputerService.INSTANCE.update(ctx.getNewComputer());
 			System.out.println("UPDATED");
+			logger.info("Computer changed with command createComputer");
+			logger.debug(computer.toString());
 		}
 
 	},
@@ -161,6 +177,7 @@ public enum Command {
 			}
 			System.out.println("Program terminated");
 			ctx.getScanner().setExit(true);
+			logger.info("Program terminated with command exit");
 		}
 
 	};
@@ -172,6 +189,8 @@ public enum Command {
 			commands.put(com.commandLabel, com);
 		}
 	}
+		
+	private static Logger logger = LoggerFactory.getLogger(Command.class);
 
 	private final String commandLabel;
 
@@ -230,8 +249,12 @@ public enum Command {
 	 * @return The matching command
 	 */
 	public static Command getCommand(String command) {
-		Command c = commands.get(command);		
-		return (c == null)?Command.HELP:c;
+		Command c = commands.get(command);	
+		if (c == null) {
+			logger.info("Bad command entered, redirected on help");
+			c = Command.HELP;
+		}
+		return c;
 	}
 
 	public abstract void execute(ComputerDatabaseContext ctx)

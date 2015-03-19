@@ -1,18 +1,25 @@
 package com.excilys.cdb.service;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
+import java.io.FileInputStream;
 import java.time.LocalDateTime;
 
+import org.dbunit.DBTestCase;
+import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.excilys.cdb.exception.ServiceException;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
-public class ComputerServiceTest {
+public class ComputerServiceTest extends DBTestCase {
+	
+	@BeforeClass
+	public void createDB() {
+		
+	}
 	
 	@Test
 	public void testGetAllThrowsErrorOnNull() {
@@ -147,6 +154,11 @@ public class ComputerServiceTest {
 			fail("delete : should not throw an exception");
 		}
 		
+	}
+
+	@Override
+	protected IDataSet getDataSet() throws Exception {
+		return new FlatXmlDataSetBuilder().build(new FileInputStream("src/test/datasets/dbTest.xml"));
 	}
 
 }
