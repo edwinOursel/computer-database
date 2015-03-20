@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.excilys</groupId>
-	<artifactId>cdb</artifactId>
+	<artifactId>computer-database</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>cdb Maven Webapp</name>
@@ -75,7 +75,7 @@
 
 	</dependencies>
 	<build>
-		<finalName>cdb</finalName>
+		<finalName>computer-database</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
