@@ -17,14 +17,13 @@ public class DashboardServlet extends HttpServlet {
 	private static Logger logger = LoggerFactory.getLogger(DashboardServlet.class);
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		logger.info("Dashboard servlet called");
-		response.sendRedirect("views/dashboard.html");	
-		/*try {
-			this.getServletContext().getRequestDispatcher("/views/dashboard.html").forward(request, response);
+		logger.info("Dashboard servlet called");	
+		try {
+			this.getServletContext().getRequestDispatcher("/pages/index.jsp").forward(request, response);
 		} catch (ServletException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 	
 	}
 	
