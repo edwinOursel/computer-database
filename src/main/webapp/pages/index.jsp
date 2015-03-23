@@ -1,22 +1,39 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib tagdir="/WEB-INF/tags" prefix="cdb" %>
+<%@ taglib uri="/WEB-INF/taglib.tld" prefix="cdb"%>
 
-<cdb:link target="dashboard" page="${requestScope.page.current + 1}" limit="${requestScope.page.limit}" />   
-<cdb:pagination page="${requestScope.page.current}" page-count="${requestScope.page.count}" /> 
+<cdb:link name="Edwin"/>
+
+<%-- <cdb:link target="dashboard" page="${requestScope.page.current + 1}"
+	limit="${requestScope.page.limit}" />
+<cdb:pagination page="${requestScope.page.current}"
+	page-count="${requestScope.page.count}" /> --%>
 
 <head>
-	<title>Computer Database</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta charset="utf-8">
-	<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
-	<!-- Bootstrap -->
-	<link type="text/css" href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet"/>
-	<link type="text/css" href="${pageContext.request.contextPath}/css/font-awesome.css" rel="stylesheet"/>
-	<link type="text/css" href="${pageContext.request.contextPath}/css/main.css" rel="stylesheet"/>
+<title>Computer Database</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+<!-- Bootstrap -->
+<link type="text/css"
+	href="${pageContext.request.contextPath}/css/bootstrap.min.css"
+	rel="stylesheet" />
+<link type="text/css"
+	href="${pageContext.request.contextPath}/css/font-awesome.css"
+	rel="stylesheet" />
+<link type="text/css"
+	href="${pageContext.request.contextPath}/css/main.css" rel="stylesheet" />
 
 </head>
 <html>
 <body>
+
+	<c:forEach var="i" begin="1" end="5">
+   Item <c:out value="${i}" />
+		<p>
+	</c:forEach>
+
+
+
 	<header class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<a class="navbar-brand" href="dashboard.html"> Application -

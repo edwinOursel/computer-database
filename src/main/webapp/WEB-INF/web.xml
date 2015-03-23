@@ -2,6 +2,8 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	version="3.0">
 
+
+
 	<error-page>
 		<error-code>403</error-code>
 		<location>/views/403.html</location>
@@ -11,7 +13,7 @@
 		<error-code>404</error-code>
 		<location>/views/404.html</location>
 	</error-page>
-	
+
 	<error-page>
 		<error-code>500</error-code>
 		<location>/views/500.html</location>
@@ -28,13 +30,15 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
-	<servlet-mapping> 
-		<servlet-name>dashboardServlet</servlet-name> 
-		<url-pattern>/dashboard</url-pattern> 
+	<servlet-mapping>
+		<servlet-name>dashboardServlet</servlet-name>
+		<url-pattern>/dashboard</url-pattern>
 	</servlet-mapping>
-		
-		
-		 <!-- <ejb-ref> <ejb-ref-name>ejb/fooremote</ejb-ref-name> <ejb-ref-type>Session</ejb-ref-type> 
+
+
+	
+
+	<!-- <ejb-ref> <ejb-ref-name>ejb/fooremote</ejb-ref-name> <ejb-ref-type>Session</ejb-ref-type> 
 		<remote>test.FooRemoteIF</remote> </ejb-ref> <ejb-local-ref> <ejb-ref-name>ejb/foo</ejb-ref-name> 
 		<ejb-ref-type>Session</ejb-ref-type> <local>test.FooIF</local> <ejb-link>FooBean</ejb-link> 
 		</ejb-local-ref> -->
