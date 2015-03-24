@@ -17,4 +17,15 @@ public enum CompanyService {
 			throw new ServiceException(e);
 		}
 	}
+	
+	public List<Long> getAllCompaniesId() {
+        return CompanyDAO.INSTANCE.getAllCompaniesId();
+    }
+	
+	 public Company getById(Long id) {
+	        if (id <= 0) {
+	            throw new IllegalArgumentException();
+	        }
+	        return CompanyDAO.INSTANCE.getById(id);
+	    }
 }

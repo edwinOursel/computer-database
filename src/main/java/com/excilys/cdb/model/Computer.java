@@ -9,6 +9,24 @@ public class Computer {
 	private LocalDateTime discontinued;
 	private Company company;
 	
+	public Computer() {
+    }
+
+    public Computer(Long id, String name, LocalDateTime introduced,
+                    LocalDateTime discontinued, Company company) {
+        this.id = id;
+        this.name = name;
+        this.introduced = introduced;
+        this.discontinued = discontinued;
+        this.company = company;
+    }
+
+    public Computer(String name, LocalDateTime introduced,
+                    LocalDateTime discontinued, Company company) {
+        this(null, name, introduced, discontinued, company);
+    }
+	
+	
 	public long getId() {
 		return id;
 	}

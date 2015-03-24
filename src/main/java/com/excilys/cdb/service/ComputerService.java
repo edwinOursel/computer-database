@@ -2,7 +2,7 @@ package com.excilys.cdb.service;
 
 import java.util.List;
 
-import com.excilys.cdb.cli.SimplePage;
+import com.excilys.cdb.cli.Page;
 import com.excilys.cdb.exception.DAOException;
 import com.excilys.cdb.exception.ServiceException;
 import com.excilys.cdb.model.Computer;
@@ -10,6 +10,10 @@ import com.excilys.cdb.persistence.dao.ComputerDAO;
 
 public enum ComputerService {
 	INSTANCE;
+	
+	public int count() {
+        return ComputerDAO.INSTANCE.count();
+    }
 	
 	public List<Computer> getAll() throws ServiceException {
 		try {
@@ -19,7 +23,7 @@ public enum ComputerService {
 		}
 	}
 	
-	public List<Computer> getAll(SimplePage page) throws ServiceException {
+	public List<Computer> getAll(Page page) throws ServiceException {
 		if (page == null) {
 			throw new IllegalArgumentException();
 		}

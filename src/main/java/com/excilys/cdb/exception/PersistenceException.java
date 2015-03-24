@@ -1,6 +1,6 @@
 package com.excilys.cdb.exception;
 
-public class PersistenceException extends Exception {
+public class PersistenceException extends RuntimeException {
 	/**
 	 * 
 	 */
@@ -8,5 +8,9 @@ public class PersistenceException extends Exception {
 
 	public PersistenceException(String message) {
 		super(message);
+	}
+	
+	public PersistenceException(Exception e) {
+		super(e);
 	}
 }

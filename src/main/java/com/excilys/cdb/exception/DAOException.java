@@ -1,6 +1,6 @@
 package com.excilys.cdb.exception;
 
-public class DAOException extends Exception {
+public class DAOException extends RuntimeException {
 	/**
 	 * 
 	 */

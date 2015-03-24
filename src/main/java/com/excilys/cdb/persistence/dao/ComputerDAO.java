@@ -20,6 +20,25 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 
 	static private final String COMPUTER_TABLE = "computer";
 	
+	/**
+     * Number of computers in the database.
+     *
+     * @return Number of entities
+     */
+    public int count() {
+        final String sql = "SELECT COUNT(*) FROM " + COMPUTER_TABLE;
+        try (final Statement state = ComputerDatabaseConnection.INSTANCE
+                .getInstance().createStatement()) {
+            final ResultSet rs = state.executeQuery(sql);
+            while (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+        return 0;
+    }
+	
 	@Override
 	public List<Computer> getAll() throws DAOException {
 		final List<Computer> computers = new ArrayList<>();

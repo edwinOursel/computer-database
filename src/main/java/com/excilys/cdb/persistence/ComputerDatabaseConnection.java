@@ -18,8 +18,8 @@ public enum ComputerDatabaseConnection {
 	private ComputerDatabaseConnection() {
 		try {
 			loadConfigFile();
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			throw new PersistenceException(e);
 		}
 	}
 
@@ -35,7 +35,8 @@ public enum ComputerDatabaseConnection {
 		return connection;
 	}
 
-	private void loadConfigFile() throws IOException {
+	private void loadConfigFile() throws IOException, InstantiationException,
+    IllegalAccessException, ClassNotFoundException {
 		if (properties == null) {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
