@@ -19,11 +19,11 @@ public class ComputerMapper implements Mapper<Computer> {
 		computer.setName(res.getString("name"));
 		Timestamp t = res.getTimestamp("introduced");
 		if (t != null) {
-			computer.setIntroduced(t.toLocalDateTime());	
+			computer.setIntroducedDate(t.toLocalDateTime());	
 		}
 		t = res.getTimestamp("discontinued");
 		if (t != null) {
-			computer.setDiscontinued(t.toLocalDateTime());
+			computer.setDiscontinuedDate(t.toLocalDateTime());
 		}
 		final Long companyId = res.getLong("company_id");
 		if (companyId > 0) {

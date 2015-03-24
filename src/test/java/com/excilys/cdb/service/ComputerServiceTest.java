@@ -124,9 +124,9 @@ public class ComputerServiceTest extends DBTestCase {
 		long idCompany = 123456789;
 		computer.setId(idCompany);
 		LocalDateTime t = LocalDateTime.now();
-		computer.setIntroduced(t);
+		computer.setIntroducedDate(t);
 		LocalDateTime t2 = LocalDateTime.now();
-		computer.setDiscontinued(t2);
+		computer.setDiscontinuedDate(t2);
 		computer.setName("Hal9000");
 				
 		try {
@@ -140,8 +140,8 @@ public class ComputerServiceTest extends DBTestCase {
 			computer = c.getById(idComputer);
 			Assert.assertEquals(idComputer, computer.getId());
 			Assert.assertEquals(computer.getCompany().getId(), idCompany);
-			Assert.assertEquals(computer.getIntroduced(), t);
-			Assert.assertEquals(computer.getDiscontinued(), t2);
+			Assert.assertEquals(computer.getIntroducedDate(), t);
+			Assert.assertEquals(computer.getDiscontinuedDate(), t2);
 		} catch (ServiceException e) {
 			e.printStackTrace();
 			fail("get by id : should not throw an exception");

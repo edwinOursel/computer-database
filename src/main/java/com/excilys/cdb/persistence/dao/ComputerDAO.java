@@ -17,8 +17,9 @@ import com.excilys.cdb.persistence.ComputerDatabaseConnection;
 
 public enum ComputerDAO implements DAO<Computer, Long> {
 	INSTANCE;
-
+	
 	static private final String COMPUTER_TABLE = "computer";
+	static private final String COMPANY_TABLE = "company";
 	
 	/**
      * Number of computers in the database.
@@ -47,8 +48,8 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 		try (final Statement state = ComputerDatabaseConnection.INSTANCE
 				.getInstance().createStatement()) {
 			try (final ResultSet rs = state
-					.executeQuery("SELECT * FROM " + COMPUTER_TABLE + " compu LEFT OUTER JOIN company"
-							+ " compa ON compu.company_id = compa.id")) {
+					.executeQuery("SELECT * FROM " + COMPUTER_TABLE + " compu LEFT OUTER JOIN " 
+							+ COMPANY_TABLE + " compa ON compu.company_id = compa.id")) {
 				while (rs.next()) {
 					computers.add(computerMapper.rowMap(rs));
 				}
@@ -63,15 +64,23 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 	public List<Computer> getAll(Page page) throws DAOException {
 		final List<Computer> computers = new ArrayList<>();
 		final ComputerMapper computerMapper = new ComputerMapper();
-		final String sql = "SELECT * FROM " + COMPUTER_TABLE + " compu LEFT OUTER JOIN company"
-			+ " compa ON compu.company_id = compa.id"
+		final String sql = "SELECT * FROM " + COMPUTER_TABLE + " compu LEFT OUTER JOIN "
+			+ COMPANY_TABLE + " compa ON compu.company_id = compa.id"
 			+ " ORDER BY ? ? LIMIT ? OFFSET ?";
-		//TODO mode preparedstatement
+		final PreparedStatement pStatement;
+		try {
+			pStatement = ComputerDatabaseConnection.INSTANCE
+					.getInstance().prepareStatement(sql);
+			pStatement.setString(1, page.getProperties());
+			pStatement.setString(2, page.getSort().toString());
+			pStatement.setInt(3, page.getSize());
+			pStatement.setInt(4, page.getOffset());
+		} catch (SQLException | PersistenceException e) {
+			throw new DAOException(e);
+		}
 		try (final Statement state = ComputerDatabaseConnection.INSTANCE
 				.getInstance().createStatement()) {
-			try (final ResultSet rs = state.executeQuery(String.format(sql,
-					page.getProperties(), page.getSort(), page.getSize(),
-					page.getOffset()))) {
+			try (final ResultSet rs = pStatement.executeQuery()) {
 				while (rs.next()) {
 					computers.add(computerMapper.rowMap(rs));
 				}
@@ -86,8 +95,8 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 	@Override
 	public Computer getById(Long id) throws DAOException {
 		final ComputerMapper computerMapper = new ComputerMapper();
-		final String sql = "SELECT * FROM "+ COMPUTER_TABLE +" compu LEFT OUTER JOIN company"
-				+ " compa ON compu.company_id = compa.id WHERE compu.id = ?";
+		final String sql = "SELECT * FROM "+ COMPUTER_TABLE +" compu LEFT OUTER JOIN "
+				+ COMPANY_TABLE + " compa ON compu.company_id = compa.id WHERE compu.id = ?";
 
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
 				.getInstance().prepareStatement(sql)) {
@@ -115,15 +124,15 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 			if (entity.getName() != null) {
 				pStatement.setString(2, entity.getName());
 			}
-			if (entity.getIntroduced() != null) {
+			if (entity.getIntroducedDate() != null) {
 				pStatement.setTimestamp(3,
-						Timestamp.valueOf(entity.getIntroduced()));
+						Timestamp.valueOf(entity.getIntroducedDate()));
 			} else {
 				pStatement.setTimestamp(3, null);
 			}
-			if (entity.getDiscontinued() != null) {
+			if (entity.getDiscontinuedDate() != null) {
 				pStatement.setTimestamp(4,
-						Timestamp.valueOf(entity.getDiscontinued()));
+						Timestamp.valueOf(entity.getDiscontinuedDate()));
 			} else {
 				pStatement.setTimestamp(4, null);
 			}
@@ -155,15 +164,15 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 			if (entity.getName() != null) {
 				pStatement.setString(1, entity.getName());
 			}
-			if (entity.getIntroduced() != null) {
+			if (entity.getIntroducedDate() != null) {
 				pStatement.setTimestamp(2,
-						Timestamp.valueOf(entity.getIntroduced()));
+						Timestamp.valueOf(entity.getIntroducedDate()));
 			} else {
 				pStatement.setTimestamp(2, null);
 			}
-			if (entity.getDiscontinued() != null) {
+			if (entity.getDiscontinuedDate() != null) {
 				pStatement.setTimestamp(3,
-						Timestamp.valueOf(entity.getDiscontinued()));
+						Timestamp.valueOf(entity.getDiscontinuedDate()));
 			} else {
 				pStatement.setTimestamp(3, null);
 			}
