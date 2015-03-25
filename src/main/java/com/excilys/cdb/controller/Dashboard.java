@@ -38,15 +38,12 @@ public class Dashboard extends HttpServlet {
         String size = request.getParameter("size");
         Page p;
         int currentPage = 1, entitiesByPage = 20, pge = 1;
-        boolean previous = true;
         if (page != null) {
             page = page.trim();
             if (!page.isEmpty()) {
                 currentPage = Integer.valueOf(page);
                 pge = currentPage;
             }
-        } else {
-        	previous = false;
         }
         if (size != null) {
             size = size.trim();
@@ -54,7 +51,7 @@ public class Dashboard extends HttpServlet {
                 entitiesByPage = Integer.valueOf(size);
             }
         }
-        p = new SimplePage(currentPage, entitiesByPage, previous); 
+        p = new SimplePage(currentPage, entitiesByPage); 
         final int totalEntities = computerService.count();
         int maxPages = (totalEntities / entitiesByPage);
         if (totalEntities % entitiesByPage != 0) {

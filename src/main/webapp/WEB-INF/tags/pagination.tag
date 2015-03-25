@@ -16,7 +16,7 @@
 		</li>
 		<li>
 			<c:choose>
-				<c:when test="${previous}">
+				<c:when test="${page > 1}">
 					<a href="<c:url value="${url}?page=${page - 1}&size=${pageSize}" />" aria-label="Next">
 						<span aria-hidden="true">&lsaquo;</span>
 					</a>
@@ -26,7 +26,7 @@
 				</c:otherwise>
 			</c:choose>
 		</li>
-		<c:forEach var="i" begin="${page}" end="${pageCount}">
+		<c:forEach var="i" begin="${((page - 3) > 0)? (page - 3) : 0}" end="${((page + 3) < pageCount)? (page + 3) : pageCount}">
 			<c:choose>
 			<c:when test="${i == page}">
 			<li class="active"><a href="#">${i}</a></li>
@@ -58,7 +58,7 @@
 	</ul>
 	<div class="btn-group btn-group-sm pull-right" role="group">
 		<button type="button" class="btn btn-default"
-			onclick="document.location.href='dashboard?page=1&size=10'">10</button>
+			onclick="document.location.href='dashboard?page=1&size=20'">20</button>
 		<button type="button" class="btn btn-default"
 			onclick="document.location.href='dashboard?page=1&size=50'">50</button>
 		<button type="button" class="btn btn-default"

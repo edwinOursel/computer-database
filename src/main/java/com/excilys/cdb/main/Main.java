@@ -22,31 +22,6 @@ public class Main {
 
 		
 	
-	}/*
-	public static void main( String args[] ) {
-
-	 //search("a12 b8 55 c93 86 2s " , "\\d\\w"); // 1
-
-	 //search("a b8 93 c" , ".*\\d"); // 2
-
-	 search("a b8 93 c" , "\\d.*?"); // 3
-
-	 //search("a b8 93 c" , "\\w.*\\d"); // 4
-
-	 }
-
-	 public static void search(String mat , String pat) {
-
-	 Pattern p = Pattern.compile(pat);
-
-	 Matcher m = p.matcher(mat);
-
-	 while(m.find()) {
-
-	 System.out.print(m.group()+";");
-
-	 }
-
-	 }*/
+	}
 
 }
