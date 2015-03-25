@@ -217,7 +217,7 @@ public enum Command {
 						.ofPattern("yyyy-MM-dd HH:mm:ss");
 				LocalDateTime dateTime = LocalDateTime.parse(sb.toString(),
 						formatter);
-				computer.setIntroduced(dateTime);
+				computer.setIntroducedDate(dateTime);
 			}
 		}
 		System.out.println("Discontinued :");
@@ -231,7 +231,7 @@ public enum Command {
 						.ofPattern("yyyy-MM-dd HH:mm:ss");
 				LocalDateTime dateTime = LocalDateTime.parse(sb.toString(),
 						formatter);
-				computer.setDiscontinued(dateTime);
+				computer.setDiscontinuedDate(dateTime);
 			}
 		}
 		System.out.println("Company id : ");

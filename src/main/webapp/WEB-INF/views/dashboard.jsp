@@ -88,11 +88,11 @@
                 <td>
                     <a href="<c:url value="/editComputer?id=${computer.id}" />"><c:out value="${computer.name}"/></a>
                 </td>
-                <td><fmt:formatDate value="${computer.introducedDate}" type="date" dateStyle="full"/></td>
-                <td><fmt:formatDate value="${computer.discontinuedDate}" type="date" dateStyle="full"/></td>
+                <td>${computer.introducedDate}</td>
+                <td>${computer.discontinuedDate}</td>
                 <td>
                     <c:if test="${!empty computer.company}">
-                        <c:out value="${computer.company.name}"/>
+                        <c:out value="${computer.company}"/>
                     </c:if>
                 </td>
             </tr>

@@ -3,9 +3,9 @@ package com.excilys.cdb.mapper.dtoMapper;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.persistence.dto.CompanyDto;
 
-public class CompanyDtoMapper {
+public class CompanyDtoMapper implements DtoMapper<CompanyDto, Company> {
 
-	//Un peu inutile ...
+	@Override
 	public CompanyDto map(Company c) {
 		CompanyDto dto = new CompanyDto();
 		dto.setId(c.getId());
@@ -13,6 +13,7 @@ public class CompanyDtoMapper {
 		return dto;
 	}
 	
+	@Override
 	public Company unMap(CompanyDto dto) {
 		Company c = new Company();
 		c.setId(dto.getId());

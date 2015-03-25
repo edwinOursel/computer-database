@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 public class Computer {
 	private long id;
 	private String name;
-	private LocalDateTime introduced;
-	private LocalDateTime discontinued;
+	private LocalDateTime introducedDate;
+	private LocalDateTime discontinuedDate;
 	private Company company;
 	
 	public Computer() {
@@ -16,8 +16,8 @@ public class Computer {
                     LocalDateTime discontinued, Company company) {
         this.id = id;
         this.name = name;
-        this.introduced = introduced;
-        this.discontinued = discontinued;
+        this.introducedDate = introduced;
+        this.discontinuedDate = discontinued;
         this.company = company;
     }
 
@@ -35,12 +35,12 @@ public class Computer {
 		return name;
 	}
 	
-	public LocalDateTime getIntroduced() {
-		return introduced;
+	public LocalDateTime getIntroducedDate() {
+		return introducedDate;
 	}
 	
-	public LocalDateTime getDiscontinued() {
-		return discontinued;
+	public LocalDateTime getDiscontinuedDate() {
+		return discontinuedDate;
 	}
 		
 	
@@ -51,12 +51,12 @@ public class Computer {
 		this.name = name;
 	}
 	
-	public void setIntroduced(LocalDateTime introduced) {
-		this.introduced = introduced;
+	public void setIntroducedDate(LocalDateTime introduced) {
+		this.introducedDate = introduced;
 	}
 	
-	public void setDiscontinued(LocalDateTime discontinued) {
-		this.discontinued = discontinued;
+	public void setDiscontinuedDate(LocalDateTime discontinued) {
+		this.discontinuedDate = discontinued;
 	}
 	
 	public Company getCompany() {
@@ -74,10 +74,10 @@ public class Computer {
 		int result = 1;
 		result = prime * result + ((company == null) ? 0 : company.hashCode());
 		result = prime * result
-				+ ((discontinued == null) ? 0 : discontinued.hashCode());
+				+ ((discontinuedDate == null) ? 0 : discontinuedDate.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
 		result = prime * result
-				+ ((introduced == null) ? 0 : introduced.hashCode());
+				+ ((introducedDate == null) ? 0 : introducedDate.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -96,17 +96,17 @@ public class Computer {
 				return false;
 		} else if (!company.equals(other.company))
 			return false;
-		if (discontinued == null) {
-			if (other.discontinued != null)
+		if (discontinuedDate == null) {
+			if (other.discontinuedDate != null)
 				return false;
-		} else if (!discontinued.equals(other.discontinued))
+		} else if (!discontinuedDate.equals(other.discontinuedDate))
 			return false;
 		if (id != other.id)
 			return false;
-		if (introduced == null) {
-			if (other.introduced != null)
+		if (introducedDate == null) {
+			if (other.introducedDate != null)
 				return false;
-		} else if (!introduced.equals(other.introduced))
+		} else if (!introducedDate.equals(other.introducedDate))
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -124,9 +124,9 @@ public class Computer {
 		builder.append(", name=");
 		builder.append(name);
 		builder.append(", introduced=");
-		builder.append(introduced);
+		builder.append(introducedDate);
 		builder.append(", discontinued=");
-		builder.append(discontinued);
+		builder.append(discontinuedDate);
 		builder.append(", company=");
 		builder.append(company);
 		builder.append("]");

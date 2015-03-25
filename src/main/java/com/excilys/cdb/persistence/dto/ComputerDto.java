@@ -41,5 +41,11 @@ public class ComputerDto implements Serializable {
 	public void setCompany(long company) {
 		this.company = company;
 	}
+	@Override
+	public String toString() {
+		return "ComputerDto [id=" + id + ", name=" + name + ", introducedDate="
+				+ introducedDate + ", discontinuedDate=" + discontinuedDate
+				+ ", company=" + company + "]";
+	}
 	
 }

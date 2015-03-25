@@ -3,6 +3,8 @@ package com.excilys.cdb.persistence.dto;
 import java.io.Serializable;
 
 public class CompanyDto implements Serializable {
+	
+
 	private static final long serialVersionUID = 1L;
 
 	private long id;
@@ -22,6 +24,11 @@ public class CompanyDto implements Serializable {
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@Override
+	public String toString() {
+		return "CompanyDto [id=" + id + ", name=" + name + "]";
 	}
 	
 }

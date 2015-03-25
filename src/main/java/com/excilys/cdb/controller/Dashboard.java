@@ -1,7 +1,9 @@
 package com.excilys.cdb.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +18,7 @@ import com.excilys.cdb.cli.Page;
 import com.excilys.cdb.cli.SimplePage;
 import com.excilys.cdb.mapper.dtoMapper.ComputerDtoMapper;
 import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.persistence.dto.ComputerDto;
 import com.excilys.cdb.service.ComputerService;
 
 @WebServlet(urlPatterns = "/dashboard")
@@ -35,12 +38,15 @@ public class Dashboard extends HttpServlet {
         String size = request.getParameter("size");
         Page p;
         int currentPage = 1, entitiesByPage = 20, pge = 1;
+        boolean previous = true;
         if (page != null) {
             page = page.trim();
             if (!page.isEmpty()) {
                 currentPage = Integer.valueOf(page);
                 pge = currentPage;
             }
+        } else {
+        	previous = false;
         }
         if (size != null) {
             size = size.trim();
@@ -48,7 +54,7 @@ public class Dashboard extends HttpServlet {
                 entitiesByPage = Integer.valueOf(size);
             }
         }
-        p = new SimplePage(currentPage, entitiesByPage);
+        p = new SimplePage(currentPage, entitiesByPage, previous); 
         final int totalEntities = computerService.count();
         int maxPages = (totalEntities / entitiesByPage);
         if (totalEntities % entitiesByPage != 0) {
@@ -59,9 +65,7 @@ public class Dashboard extends HttpServlet {
         request.setAttribute("page", p);
         request.setAttribute("sizePage", entitiesByPage);
         request.setAttribute("maxPages", maxPages);
-        List<Computer> l = computerService.getAll(p);        
-        l.stream().forEach(dtoMapper::map);
-        request.setAttribute("computers", l);        
+        request.setAttribute("computers", dtoMapper.mapList(computerService.getAll(p)));        
         request.setAttribute("currentPage", pge);
         request.setAttribute("total", totalEntities);
         getServletContext()

@@ -13,6 +13,7 @@ public class SimplePage implements Page {
 	private int page;
 	private int size;
 	private String textualProperties;
+	private boolean previous;
 
 	/**
 	 * @param page
@@ -33,6 +34,11 @@ public class SimplePage implements Page {
 		this.properties = new ArrayList<>();
 		this.properties.add(DEFAULT_PROPERTY);
 	}
+	
+	public SimplePage(int page, int size, boolean previous) {
+		this(page, size);
+		this.previous = previous;
+	}
 
 	/**
 	 * @param page
@@ -45,8 +51,8 @@ public class SimplePage implements Page {
 	 *       getProperties().size() == 1
 	 *       getProperties().contains(Page.DEFAULT_PROPERTY)
 	 */
-	public SimplePage(int page, int size, Sort sort) {
-		this(page, size);
+	public SimplePage(int page, int size, Sort sort, boolean previous) {
+		this(page, size, previous);
 		if (sort == null) {
 			throw new IllegalArgumentException();
 		}
@@ -66,8 +72,8 @@ public class SimplePage implements Page {
 	 *       getProperties().size() == properties.length
 	 *       getProperties().containsAll(Arrays.asList(properties))
 	 */
-	public SimplePage(int page, int size, Sort sort, String... properties) {
-		this(page, size, sort);
+	public SimplePage(int page, int size, Sort sort, boolean previous, String... properties) {
+		this(page, size, sort, previous);
 		if (properties.length > 0) {
 			this.properties = Arrays.asList(properties);
 		}
@@ -126,5 +132,13 @@ public class SimplePage implements Page {
 		if (properties.length > 0) {
 			this.properties = Arrays.asList(properties);
 		}
+	}
+
+	public boolean isPrevious() {
+		return previous;
+	}
+
+	public void setPrevious(boolean previous) {
+		this.previous = previous;
 	}
 }

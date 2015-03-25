@@ -17,10 +17,10 @@
 		<li>
 			<c:choose>
 				<c:when test="${previous}">
-				<a href="<c:url value="${url}?page=${page - 1}&size=${pageSize}" />" aria-label="Next">
-					<span aria-hidden="true">&lsaquo;</span>
-				</a>
-			</c:when>
+					<a href="<c:url value="${url}?page=${page - 1}&size=${pageSize}" />" aria-label="Next">
+						<span aria-hidden="true">&lsaquo;</span>
+					</a>
+				</c:when>
 				<c:otherwise>
 					<a href="#" aria-label="Previous"> <span aria-hidden="true">&lsaquo;</span></a>
 				</c:otherwise>
