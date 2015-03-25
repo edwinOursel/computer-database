@@ -18,10 +18,6 @@ public class Main {
 			Command.getCommand(scanner.getNextToken()).execute(ctx);
 		}
 		logger.info("Program terminated");
-		
-
-		
-	
 	}
 
 }

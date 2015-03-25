@@ -7,10 +7,9 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>cdb Maven Webapp</name>
 	<url>http://maven.apache.org</url>
-	
+
 	<properties>
 		<java.servlet-api.version>3.1.0</java.servlet-api.version>
-		<jquery.version>2.1.3</jquery.version>
 		<junit.version>4.12</junit.version>
 		<jstl.version>1.2</jstl.version>
 		<mysql-connector-java.version>5.1.34</mysql-connector-java.version>
@@ -19,23 +18,17 @@
 		<logback-classic.version>1.1.2</logback-classic.version>
 		<selenium-java.version>2.45.0</selenium-java.version>
 		<dbunit.version>2.5.0</dbunit.version>
-		
+
 		<configuration-source.version>1.8</configuration-source.version>
 		<configuration-target.version>1.8</configuration-target.version>
 	</properties>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<version>${java.servlet-api.version}</version>
 			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jquery</artifactId>
-			<version>${jquery.version}</version>
 		</dependency>
 
 		<dependency>
@@ -50,33 +43,33 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql-connector-java.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 			<version>${mockito-all.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j-api.version}</version>
 			<!-- <scope>runtime</scope> -->
 		</dependency>
-		
+
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>${logback-classic.version}</version>
-		<!-- 	<scope>runtime</scope> -->
+			<!-- <scope>runtime</scope> -->
 		</dependency>
 
 		<dependency>
@@ -85,7 +78,7 @@
 			<version>${selenium-java.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.dbunit</groupId>
 			<artifactId>dbunit</artifactId>
@@ -93,7 +86,7 @@
 		</dependency>
 
 	</dependencies>
-	
+
 	<build>
 		<finalName>computer-database</finalName>
 		<plugins>

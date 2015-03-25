@@ -9,8 +9,15 @@ public class ComputerDto implements Serializable {
 	private String name;
 	private String introducedDate;
 	private String discontinuedDate;
-	private long company;
+	private String company;
+	private long companyId;
 	
+	public long getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(long companyId) {
+		this.companyId = companyId;
+	}
 	public long getId() {
 		return id;
 	}
@@ -35,10 +42,10 @@ public class ComputerDto implements Serializable {
 	public void setDiscontinuedDate(String discontinuedDate) {
 		this.discontinuedDate = discontinuedDate;
 	}
-	public long getCompany() {
+	public String getCompany() {
 		return company;
 	}
-	public void setCompany(long company) {
+	public void setCompany(String company) {
 		this.company = company;
 	}
 	@Override

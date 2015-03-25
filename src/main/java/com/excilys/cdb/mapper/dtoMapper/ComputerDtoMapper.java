@@ -1,6 +1,7 @@
 package com.excilys.cdb.mapper.dtoMapper;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.dao.CompanyDAO;
@@ -13,9 +14,10 @@ public class ComputerDtoMapper implements DtoMapper<ComputerDto, Computer>  {
 		ComputerDto dto = new ComputerDto();
 		dto.setName(c.getName());
 		dto.setId(c.getId());
-		dto.setCompany((c.getCompany() == null)? 0 : c.getCompany().getId());
-		dto.setIntroducedDate((c.getIntroducedDate() == null)? null : c.getIntroducedDate().toString());
-		dto.setDiscontinuedDate((c.getDiscontinuedDate() == null)? null : c.getDiscontinuedDate().toString());
+		dto.setCompany((c.getCompany() == null)? null : c.getCompany().getName());
+		dto.setCompanyId((c.getCompany() == null)? 0 : c.getCompany().getId());
+		dto.setIntroducedDate((c.getIntroducedDate() == null)? null : c.getIntroducedDate().toLocalDate().toString());
+		dto.setDiscontinuedDate((c.getDiscontinuedDate() == null)? null : c.getDiscontinuedDate().toLocalDate().toString());
 		return dto;
 	}
 	
@@ -24,9 +26,9 @@ public class ComputerDtoMapper implements DtoMapper<ComputerDto, Computer>  {
 		Computer c = new Computer();
 		c.setId(dto.getId());
 		c.setName(dto.getName());		
-		c.setCompany(CompanyDAO.INSTANCE.getById(dto.getCompany()));
-		c.setIntroducedDate(LocalDateTime.parse(dto.getIntroducedDate()));
-		c.setDiscontinuedDate(LocalDateTime.parse(dto.getDiscontinuedDate()));
+		c.setCompany(CompanyDAO.INSTANCE.getById(dto.getCompanyId()));
+		c.setIntroducedDate(LocalDateTime.parse(dto.getIntroducedDate(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+		c.setDiscontinuedDate(LocalDateTime.parse(dto.getDiscontinuedDate(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
 		return c;
 	}
 
