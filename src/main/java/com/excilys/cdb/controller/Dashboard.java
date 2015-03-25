@@ -1,8 +1,7 @@
 package com.excilys.cdb.controller;
 
-import com.excilys.cdb.service.ComputerService;
-import com.excilys.cdb.cli.Page;
-import com.excilys.cdb.cli.SimplePage;
+import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,19 +9,32 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.excilys.cdb.cli.Page;
+import com.excilys.cdb.cli.SimplePage;
+import com.excilys.cdb.mapper.dtoMapper.ComputerDtoMapper;
+import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.service.ComputerService;
 
 @WebServlet(urlPatterns = "/dashboard")
 public class Dashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	private static Logger logger = LoggerFactory.getLogger(Dashboard.class);
+	private static ComputerService computerService = ComputerService.INSTANCE;
+	
+	private ComputerDtoMapper dtoMapper = new ComputerDtoMapper();
+	
 	@Override
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
+		logger.info("Dashboard servlet called");
         String page = request.getParameter("page");
         String size = request.getParameter("size");
         Page p;
-        int currentPage = 1, entitiesByPage = 10, pge = 1;
+        int currentPage = 1, entitiesByPage = 20, pge = 1;
         if (page != null) {
             page = page.trim();
             if (!page.isEmpty()) {
@@ -37,7 +49,7 @@ public class Dashboard extends HttpServlet {
             }
         }
         p = new SimplePage(currentPage, entitiesByPage);
-        final int totalEntities = ComputerService.INSTANCE.count();
+        final int totalEntities = computerService.count();
         int maxPages = (totalEntities / entitiesByPage);
         if (totalEntities % entitiesByPage != 0) {
             ++maxPages;
@@ -47,7 +59,9 @@ public class Dashboard extends HttpServlet {
         request.setAttribute("page", p);
         request.setAttribute("sizePage", entitiesByPage);
         request.setAttribute("maxPages", maxPages);
-        request.setAttribute("computers", ComputerService.INSTANCE.getAll(p));
+        List<Computer> l = computerService.getAll(p);        
+        l.stream().forEach(dtoMapper::map);
+        request.setAttribute("computers", l);        
         request.setAttribute("currentPage", pge);
         request.setAttribute("total", totalEntities);
         getServletContext()
