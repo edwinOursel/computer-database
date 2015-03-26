@@ -8,33 +8,41 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 import com.excilys.cdb.exception.PersistenceException;
+import com.jolbox.bonecp.BoneCP;
+import com.jolbox.bonecp.BoneCPConfig;
 
 public enum ComputerDatabaseConnection {
 	INSTANCE;
 
 	private Properties properties;
 	private String url;
-
+	private BoneCP connectionPool;
+	
+	
 	private ComputerDatabaseConnection() {
 		try {
 			loadConfigFile();
+			poolInit();
 		} catch (Exception e) {
 			throw new PersistenceException(e);
 		}
 	}
 
-	public Connection getInstance() throws PersistenceException {
-		Connection connection = null;
-
-		try {			
-			connection = DriverManager.getConnection(url, properties);
-		} catch (SQLException e) {
-			throw new PersistenceException(e.getMessage());
-		}
-
-		return connection;
+	private void poolInit() throws Exception {
+		BoneCPConfig config = new BoneCPConfig(properties);
+		
+		config.setJdbcUrl(url);			
+		config.setMinConnectionsPerPartition(5);
+		config.setMaxConnectionsPerPartition(10);
+		config.setPartitionCount(10);		
+		
+		connectionPool = new BoneCP(config);
 	}
-
+	
+	public Connection getConnection() throws SQLException {
+		return connectionPool.getConnection();
+	}
+		
 	private void loadConfigFile() throws IOException, InstantiationException,
     IllegalAccessException, ClassNotFoundException {
 		if (properties == null) {

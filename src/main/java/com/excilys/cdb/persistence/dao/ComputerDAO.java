@@ -29,7 +29,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
     public int count() {
         final String sql = "SELECT COUNT(*) FROM " + COMPUTER_TABLE;
         try (final Statement state = ComputerDatabaseConnection.INSTANCE
-                .getInstance().createStatement()) {
+                .getConnection().createStatement()) {
             final ResultSet rs = state.executeQuery(sql);
             while (rs.next()) {
                 return rs.getInt(1);
@@ -46,7 +46,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 		final ComputerMapper computerMapper = new ComputerMapper();
 
 		try (final Statement state = ComputerDatabaseConnection.INSTANCE
-				.getInstance().createStatement()) {
+				.getConnection().createStatement()) {
 			try (final ResultSet rs = state
 					.executeQuery("SELECT * FROM " + COMPUTER_TABLE + " compu LEFT OUTER JOIN " 
 							+ COMPANY_TABLE + " compa ON compu.company_id = compa.id")) {
@@ -70,7 +70,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 		final PreparedStatement pStatement;
 		try {
 			pStatement = ComputerDatabaseConnection.INSTANCE
-					.getInstance().prepareStatement(sql);
+					.getConnection().prepareStatement(sql);
 			pStatement.setString(1, page.getProperties());
 			pStatement.setString(2, page.getSort().toString());
 			pStatement.setInt(3, page.getSize());
@@ -79,7 +79,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 			throw new DAOException(e);
 		}
 		try (final Statement state = ComputerDatabaseConnection.INSTANCE
-				.getInstance().createStatement()) {
+				.getConnection().createStatement()) {
 			try (final ResultSet rs = pStatement.executeQuery()) {
 				while (rs.next()) {
 					computers.add(computerMapper.rowMap(rs));
@@ -99,7 +99,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 				+ COMPANY_TABLE + " compa ON compu.company_id = compa.id WHERE compu.id = ?";
 
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-				.getInstance().prepareStatement(sql)) {
+				.getConnection().prepareStatement(sql)) {
 			pStatement.setLong(1, id);
 			try (final ResultSet rs = pStatement.executeQuery()) {
 				if (rs.first()) {
@@ -118,7 +118,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 		final String sql = "INSERT INTO " + COMPUTER_TABLE + " VALUES (?, ?, ?, ?, ?)";
 
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-				.getInstance().prepareStatement(sql,
+				.getConnection().prepareStatement(sql,
 						Statement.RETURN_GENERATED_KEYS)) {
 			pStatement.setObject(1, null);
 			if (entity.getName() != null) {
@@ -160,7 +160,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 		final String sql = "UPDATE " + COMPUTER_TABLE + " SET name = ?, introduced = ?, "
 				+ "discontinued = ?, company_id = ? WHERE id = ?";
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-				.getInstance().prepareStatement(sql)) {
+				.getConnection().prepareStatement(sql)) {
 			if (entity.getName() != null) {
 				pStatement.setString(1, entity.getName());
 			}
@@ -192,7 +192,7 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 	public void delete(Long id) throws DAOException {
 		final String sql = "DELETE FROM " + COMPUTER_TABLE + " WHERE id = ?";
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-				.getInstance().prepareStatement(sql)) {
+				.getConnection().prepareStatement(sql)) {
 			pStatement.setLong(1, id);
 			pStatement.execute();
 		} catch (SQLException | PersistenceException e) {

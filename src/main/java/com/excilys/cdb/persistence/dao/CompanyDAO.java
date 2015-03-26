@@ -23,7 +23,7 @@ public enum CompanyDAO implements DAO<Company, Long> {
 		final List<Company> companies = new ArrayList<>();
 		final CompanyMapper companyMapper = new CompanyMapper();		
 		try (final Statement state = ComputerDatabaseConnection.INSTANCE
-				.getInstance().createStatement()) {
+				.getConnection().createStatement()) {
 			try (final ResultSet rs = state
 					.executeQuery("SELECT * FROM " + COMPANY_TABLE)) {
 				while (rs.next()) {
@@ -43,7 +43,7 @@ public enum CompanyDAO implements DAO<Company, Long> {
         final String sql = "SELECT * FROM company WHERE id = ?";
 
         try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-                .getInstance().prepareStatement(sql)) {
+                .getConnection().prepareStatement(sql)) {
             pStatement.setLong(1, id);
             final ResultSet rs = pStatement.executeQuery();
             if (rs.first()) {
@@ -60,7 +60,7 @@ public enum CompanyDAO implements DAO<Company, Long> {
         final List<Long> companies = new ArrayList<>();
 
         try (final Statement state = ComputerDatabaseConnection.INSTANCE
-                .getInstance().createStatement()) {
+                .getConnection().createStatement()) {
             final ResultSet rs = state.executeQuery("SELECT id FROM company");
             while (rs.next()) {
                 companies.add(rs.getLong("id"));

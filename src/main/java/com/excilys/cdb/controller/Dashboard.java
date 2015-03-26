@@ -33,7 +33,7 @@ public class Dashboard extends HttpServlet {
 	@Override
     protected void doGet(HttpServletRequest request,
                          HttpServletResponse response) throws ServletException, IOException {
-		logger.info("Dashboard servlet called");
+		logger.info("Dashboard servlet called");		
         String page = request.getParameter("page");
         String size = request.getParameter("size");
         Page p;
