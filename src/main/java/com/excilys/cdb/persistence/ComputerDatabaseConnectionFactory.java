@@ -3,7 +3,6 @@ package com.excilys.cdb.persistence;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
@@ -11,7 +10,7 @@ import com.excilys.cdb.exception.PersistenceException;
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
 
-public enum ComputerDatabaseConnection {
+public enum ComputerDatabaseConnectionFactory {
 	INSTANCE;
 
 	private Properties properties;
@@ -19,7 +18,7 @@ public enum ComputerDatabaseConnection {
 	private BoneCP connectionPool;
 	
 	
-	private ComputerDatabaseConnection() {
+	private ComputerDatabaseConnectionFactory() {
 		try {
 			loadConfigFile();
 			poolInit();
@@ -53,10 +52,10 @@ public enum ComputerDatabaseConnection {
 			}
 			properties = new Properties();
 			
-			InputStream is = ComputerDatabaseConnection.class
+			InputStream is = ComputerDatabaseConnectionFactory.class
 					.getClassLoader().getResourceAsStream("env-config.properties");
 			if (is == null) {
-				is = ComputerDatabaseConnection.class
+				is = ComputerDatabaseConnectionFactory.class
 				.getClassLoader().getResourceAsStream("config.properties");
 			}
 			try (final InputStream i = is) {
