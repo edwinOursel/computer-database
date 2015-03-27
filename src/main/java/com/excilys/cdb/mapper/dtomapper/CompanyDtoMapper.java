@@ -1,4 +1,4 @@
-package com.excilys.cdb.mapper.dtoMapper;
+package com.excilys.cdb.mapper.dtomapper;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.persistence.dto.CompanyDto;

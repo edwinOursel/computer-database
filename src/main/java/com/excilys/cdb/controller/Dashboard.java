@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.cdb.cli.Page;
 import com.excilys.cdb.cli.SimplePage;
-import com.excilys.cdb.mapper.dtoMapper.ComputerDtoMapper;
+import com.excilys.cdb.mapper.dtomapper.ComputerDtoMapper;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.dto.ComputerDto;
 import com.excilys.cdb.service.ComputerService;

@@ -23,7 +23,7 @@ public class SqlExecuteQueryTransaction implements Transaction<StatementPreparat
 			statement = c.prepareStatement(p.getStatement());
 			p.prepare(statement);
 			ResultSet r = statement.executeQuery();
-			statement.close();
+			statement.closeOnCompletion();			
 			return r;
 		} catch (SQLException e) {
 			throw new TransactionException(e);

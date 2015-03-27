@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.excilys.cdb.cli.LocalDateTimeUtil;
-import com.excilys.cdb.mapper.dtoMapper.CompanyDtoMapper;
+import com.excilys.cdb.mapper.dtomapper.CompanyDtoMapper;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.service.CompanyService;

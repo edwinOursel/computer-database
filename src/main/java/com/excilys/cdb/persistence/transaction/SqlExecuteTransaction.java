@@ -22,7 +22,7 @@ public class SqlExecuteTransaction implements Transaction<StatementPreparator, B
 			statement = c.prepareStatement(p.getStatement());
 			p.prepare(statement);
 			Boolean r = statement.execute();
-			statement.close();
+			statement.close();			
 			return r;
 		} catch (SQLException e) {
 			throw new TransactionException(e);
@@ -56,4 +56,4 @@ public class SqlExecuteTransaction implements Transaction<StatementPreparator, B
 		}
 		return null;		
 	}
-}
+}           
