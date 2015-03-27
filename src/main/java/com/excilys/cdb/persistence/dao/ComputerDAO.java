@@ -15,10 +15,6 @@ import com.excilys.cdb.exception.PreparationException;
 import com.excilys.cdb.mapper.ComputerMapper;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.ComputerDatabaseConnectionFactory;
-import com.excilys.cdb.persistence.transaction.ComputerGetAllPreparator;
-import com.excilys.cdb.persistence.transaction.SqlExecuteQueryTransaction;
-import com.excilys.cdb.persistence.transaction.StatementPreparator;
-import com.excilys.cdb.persistence.transaction.Transaction;
 
 public enum ComputerDAO implements DAO<Computer, Long> {
 	INSTANCE;
@@ -68,12 +64,18 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 	public List<Computer> getAll(Page page) throws DAOException {
 		final List<Computer> computers = new ArrayList<>();
 		final ComputerMapper computerMapper = new ComputerMapper();
-		final StatementPreparator preparator = new ComputerGetAllPreparator("SELECT * FROM " + COMPUTER_TABLE + " compu LEFT OUTER JOIN "
-			+ COMPANY_TABLE + " compa ON compu.company_id = compa.id ORDER BY ? ? LIMIT ? OFFSET ?", page);		
-		Transaction<StatementPreparator, ResultSet> transaction = new SqlExecuteQueryTransaction();
-		List<StatementPreparator> preparators = new ArrayList<>();
-		preparators.add(preparator);
-		try (final ResultSet rs = transaction.performOperations(preparators).get(0)) {
+		PreparedStatement statement = null;
+		try {
+			statement = cf.getConnection().prepareStatement("SELECT * FROM " + COMPUTER_TABLE + " compu LEFT OUTER JOIN "
+				+ COMPANY_TABLE + " compa ON compu.company_id = compa.id ORDER BY ? ? LIMIT ? OFFSET ?");
+			statement.setString(1, page.getProperties());
+			statement.setString(2, page.getSort().toString());
+			statement.setInt(3, page.getSize());
+			statement.setInt(4, page.getOffset());
+		} catch (SQLException e1) {
+			throw new DAOException(e1);
+		}			
+		try (final ResultSet rs = statement.executeQuery()) {
 			while (rs.next()) {
 				computers.add(computerMapper.rowMap(rs));
 			}
