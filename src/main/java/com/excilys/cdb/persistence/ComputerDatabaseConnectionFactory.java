@@ -14,7 +14,6 @@ public enum ComputerDatabaseConnectionFactory {
 	INSTANCE;
 
 	private Properties properties;
-	private String url;
 	private BoneCP connectionPool;
 	
 	
@@ -30,7 +29,7 @@ public enum ComputerDatabaseConnectionFactory {
 	private void poolInit() throws Exception {
 		BoneCPConfig config = new BoneCPConfig(properties);
 		
-		config.setJdbcUrl(url);	
+		config.setJdbcUrl(properties.getProperty("url"));	
 		config.setMinConnectionsPerPartition(5);
 		config.setMaxConnectionsPerPartition(10);
 		config.setPartitionCount(10);		
@@ -60,7 +59,6 @@ public enum ComputerDatabaseConnectionFactory {
 			}
 			try (final InputStream i = is) {
 				properties.load(i);
-				url = properties.getProperty("url");
 			}	
 		}
 	}
