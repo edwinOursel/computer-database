@@ -30,7 +30,7 @@ public enum ComputerDatabaseConnectionFactory {
 	private void poolInit() throws Exception {
 		BoneCPConfig config = new BoneCPConfig(properties);
 		
-		config.setJdbcUrl(url);			
+		config.setJdbcUrl(url);	
 		config.setMinConnectionsPerPartition(5);
 		config.setMaxConnectionsPerPartition(10);
 		config.setPartitionCount(10);		

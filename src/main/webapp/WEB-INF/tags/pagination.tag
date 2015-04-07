@@ -26,7 +26,7 @@
 				</c:otherwise>
 			</c:choose>
 		</li>
-		<c:forEach var="i" begin="${((page - 3) > 0)? (page - 3) : 0}" end="${((page + 3) < pageCount)? (page + 3) : pageCount}">
+		<c:forEach var="i" begin="${((page - 3) > 1)? (page - 3) : 1}" end="${((page + 3) < pageCount)? (page + 3) : pageCount}">
 			<c:choose>
 			<c:when test="${i == page}">
 			<li class="active"><a href="#">${i}</a></li>

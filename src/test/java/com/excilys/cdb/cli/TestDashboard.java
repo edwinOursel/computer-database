@@ -21,11 +21,11 @@ public class TestDashboard {
 	
 	@Test
 	public void testFirstElement() {
-		WebElement query = driver.findElement(By.id("companyName_0"));
+		WebElement query = driver.findElement(By.id("companyName_1"));
 		Assertions.assertThat(query != null).isTrue();
 		Assertions.assertThat(query.getText()).isEqualTo("Apple Inc.");
 
-		query = driver.findElement(By.id("name_0"));
+		query = driver.findElement(By.id("computerName_1"));
 		Assertions.assertThat(query != null).isTrue();
 		Assertions.assertThat(query.getText()).isEqualTo("MacBook Pro 15.4 inch");
 	}
@@ -38,8 +38,8 @@ public class TestDashboard {
 	
 	@Test
 	public void testGoToEditElementUrl() {
-		driver.findElement(By.id("name_0")).click();
-		Assertions.assertThat(driver.getCurrentUrl()).isEqualTo("http://localhost:8080/computer-database/editComputer?computerId=4");
+		driver.findElement(By.id("computerName_1")).click();
+		Assertions.assertThat(driver.getCurrentUrl()).isEqualTo("http://localhost:8080/computer-database/editComputer?id=1");
 	}
 	
 	@After
