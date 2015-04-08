@@ -15,8 +15,7 @@ import com.excilys.cdb.persistence.ComputerDatabaseConnectionFactory;
 import com.excilys.cdb.persistence.dao.ComputerDAO;
 
 @Component
-@Qualifier("computerService")
-public class ComputerService {
+public class ComputerService extends Service {
 	
 	
 	private static final ThreadLocal<Connection> connection = new ThreadLocal<Connection>(){
@@ -29,23 +28,8 @@ public class ComputerService {
 				throw new DAOException(e);
 			}
         }
-    };
-	
-    private void startTransaction(Connection c) {
-    	try {
-			c.setAutoCommit(false);
-		} catch (SQLException e) {
-			throw new DAOException(e);
-		}
-    }
+    };	
     
-    private void finishTransaction(Connection c) {
-    	try {
-			c.setAutoCommit(true);
-		} catch (SQLException e) {
-			throw new DAOException(e);
-		}
-    }
     
 	public int count() {
         return ComputerDAO.INSTANCE.count();
