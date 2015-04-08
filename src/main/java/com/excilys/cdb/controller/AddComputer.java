@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,9 +19,9 @@ import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.service.CompanyService;
 import com.excilys.cdb.service.ComputerService;
 
-@Component("addComputer")
-@WebServlet(urlPatterns = "/addComputer", name="addComputer")
-public class AddComputer extends HttpServlet {
+@Component
+@WebServlet(urlPatterns = "/addComputer")
+public class AddComputer extends SpringHttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
