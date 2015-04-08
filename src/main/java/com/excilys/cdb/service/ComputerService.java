@@ -4,8 +4,10 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.cdb.cli.Page;
 import com.excilys.cdb.exception.DAOException;
@@ -15,15 +17,21 @@ import com.excilys.cdb.persistence.ComputerDatabaseConnectionFactory;
 import com.excilys.cdb.persistence.dao.ComputerDAO;
 
 @Component
+@Transactional(rollbackFor=DAOException.class)
 public class ComputerService extends Service {
 	
+	@Autowired
+	private ComputerDatabaseConnectionFactory cdcf;
 	
-	private static final ThreadLocal<Connection> connection = new ThreadLocal<Connection>(){
+	@Autowired
+	private ComputerDAO computerDAO;
+	
+	private final ThreadLocal<Connection> connection = new ThreadLocal<Connection>(){
         @Override
         protected Connection initialValue()
         {
             try {
-				return ComputerDatabaseConnectionFactory.INSTANCE.getConnection();
+				return cdcf.getConnection();
 			} catch (SQLException e) {
 				throw new DAOException(e);
 			}
@@ -32,12 +40,12 @@ public class ComputerService extends Service {
     
     
 	public int count() {
-        return ComputerDAO.INSTANCE.count();
+        return computerDAO.count();
     }
 	
 	public List<Computer> getAll() throws ServiceException {
 		try {
-			return ComputerDAO.INSTANCE.getAll();
+			return computerDAO.getAll();
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -48,7 +56,7 @@ public class ComputerService extends Service {
 			throw new IllegalArgumentException();
 		}
 		try {
-			return ComputerDAO.INSTANCE.getAll(page);
+			return computerDAO.getAll(page);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -59,7 +67,7 @@ public class ComputerService extends Service {
 			throw new IllegalArgumentException();
 		}
 		try {
-			return ComputerDAO.INSTANCE.getById(id);
+			return computerDAO.getById(id);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -70,7 +78,7 @@ public class ComputerService extends Service {
 			throw new IllegalArgumentException();
 		}
 		try {
-			return ComputerDAO.INSTANCE.create(computer);
+			return computerDAO.create(computer);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -81,7 +89,7 @@ public class ComputerService extends Service {
 			throw new IllegalArgumentException();
 		}
 		try {
-			ComputerDAO.INSTANCE.update(computer);
+			computerDAO.update(computer);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -92,7 +100,7 @@ public class ComputerService extends Service {
 			throw new IllegalArgumentException();
 		}
 		try {
-			ComputerDAO.INSTANCE.delete(id);
+			computerDAO.delete(id);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}

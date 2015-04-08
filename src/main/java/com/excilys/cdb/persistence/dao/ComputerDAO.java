@@ -8,6 +8,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.excilys.cdb.cli.Page;
 import com.excilys.cdb.exception.DAOException;
 import com.excilys.cdb.exception.PersistenceException;
@@ -16,12 +19,15 @@ import com.excilys.cdb.mapper.ComputerMapper;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.ComputerDatabaseConnectionFactory;
 
-public enum ComputerDAO implements DAO<Computer, Long> {
-	INSTANCE;
+@Component
+public class ComputerDAO implements DAO<Computer, Long> {
 	
 	static private final String COMPUTER_TABLE = "computer";
 	static private final String COMPANY_TABLE = "company";
-	static private final ComputerDatabaseConnectionFactory cf = ComputerDatabaseConnectionFactory.INSTANCE;
+	
+	@Autowired
+	private ComputerDatabaseConnectionFactory cf;
+	
 	
 	/**
      * Number of computers in the database.

@@ -3,6 +3,7 @@ package com.excilys.cdb.mapper.dtomapper;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,9 @@ import com.excilys.cdb.persistence.dto.ComputerDto;
 @Component
 @Scope("prototype")
 public class ComputerDtoMapper implements DtoMapper<ComputerDto, Computer>  {
+	
+	@Autowired
+	private CompanyDAO companyDAO;
 	
 	@Override
 	public ComputerDto map(Computer c) {
@@ -31,7 +35,7 @@ public class ComputerDtoMapper implements DtoMapper<ComputerDto, Computer>  {
 		Computer c = new Computer();
 		c.setId(dto.getId());
 		c.setName(dto.getName());		
-		c.setCompany(CompanyDAO.INSTANCE.getById(dto.getCompanyId()));
+		c.setCompany(companyDAO.getById(dto.getCompanyId()));
 		c.setIntroducedDate(LocalDateTime.parse(dto.getIntroducedDate(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
 		c.setDiscontinuedDate(LocalDateTime.parse(dto.getDiscontinuedDate(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
 		return c;
