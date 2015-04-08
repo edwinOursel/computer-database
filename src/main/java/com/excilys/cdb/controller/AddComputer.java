@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.excilys.cdb.cli.LocalDateTimeUtil;
 import com.excilys.cdb.mapper.dtomapper.CompanyDtoMapper;
 import com.excilys.cdb.model.Company;
@@ -17,12 +20,31 @@ import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.service.CompanyService;
 import com.excilys.cdb.service.ComputerService;
 
-@WebServlet(urlPatterns = "/addComputer")
+@Component("addComputer")
+@WebServlet(urlPatterns = "/addComputer", name="addComputer")
 public class AddComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private static CompanyService companyService = CompanyService.INSTANCE;
-	private CompanyDtoMapper dtoMapper = new CompanyDtoMapper();
+	@Autowired
+	private CompanyService companyService;
+	
+	@Autowired
+	private CompanyDtoMapper dtoMapper;
+
+	@Autowired
+	private ComputerService computerService;
+	
+	public void setComputerService(ComputerService computerService) {
+		this.computerService = computerService;
+	}
+
+	public void setCompanyService(CompanyService companyService) {
+		this.companyService = companyService;
+	}
+
+	public void setDtoMapper(CompanyDtoMapper dtoMapper) {
+		this.dtoMapper = dtoMapper;
+	}
 	
 	@Override
     protected void doGet(HttpServletRequest request,
@@ -76,10 +98,10 @@ public class AddComputer extends HttpServlet {
             companyId = companyId.trim();
             if (!companyId.isEmpty()) {
                 Long id = Long.valueOf(companyId);
-                company = CompanyService.INSTANCE.getById(id);
+                company = companyService.getById(id);
             }
         }
-        ComputerService.INSTANCE.create(new Computer(name, introducedTime,
+        computerService.create(new Computer(name, introducedTime,
                 discontinuedTime, company));
         resp.sendRedirect("dashboard");
     }

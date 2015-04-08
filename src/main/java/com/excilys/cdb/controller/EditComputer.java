@@ -1,23 +1,42 @@
 package com.excilys.cdb.controller;
 
-import com.excilys.cdb.model.Company;
-import com.excilys.cdb.model.Computer;
-import com.excilys.cdb.service.CompanyService;
-import com.excilys.cdb.service.ComputerService;
-import com.excilys.cdb.cli.LocalDateTimeUtil;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.excilys.cdb.cli.LocalDateTimeUtil;
+import com.excilys.cdb.model.Company;
+import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.service.CompanyService;
+import com.excilys.cdb.service.ComputerService;
+
+@Component
 @WebServlet(urlPatterns = "/editComputer")
 public class EditComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
+	@Autowired
+	private CompanyService companyService;
+		
+	public void setCompanyService(CompanyService companyService) {
+		this.companyService = companyService;
+	}
+	
+	@Autowired
+	private ComputerService computerService;
+	
+	public void setComputerService(ComputerService computerService) {
+		this.computerService = computerService;
+	}
 
 	@Override
     protected void doGet(HttpServletRequest request,
@@ -27,10 +46,10 @@ public class EditComputer extends HttpServlet {
             id = id.trim();
             if (!id.isEmpty()) {
                 Long idComputer = Long.valueOf(id);
-                request.setAttribute("computer", ComputerService.INSTANCE.getById(idComputer));
+                request.setAttribute("computer", computerService.getById(idComputer));
             }
         }
-        request.setAttribute("companiesId", CompanyService.INSTANCE.getAllCompaniesId());
+        request.setAttribute("companiesId", companyService.getAllCompaniesId());
         getServletContext().getRequestDispatcher(
                 "/WEB-INF/views/editComputer.jsp").forward(request, response);
     }
@@ -92,10 +111,10 @@ public class EditComputer extends HttpServlet {
             companyId = companyId.trim();
             if (!companyId.isEmpty()) {
                 Long compId = Long.valueOf(companyId);
-                company = CompanyService.INSTANCE.getById(compId);
+                company = companyService.getById(compId);
             }
         }
-        ComputerService.INSTANCE.update(new Computer(computerId, name, introducedTime,
+        computerService.update(new Computer(computerId, name, introducedTime,
                 discontinuedTime, company));
         resp.sendRedirect("dashboard");
     }

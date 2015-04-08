@@ -3,10 +3,15 @@ package com.excilys.cdb.mapper.dtomapper;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.dao.CompanyDAO;
 import com.excilys.cdb.persistence.dto.ComputerDto;
 
+@Component
+@Scope("prototype")
 public class ComputerDtoMapper implements DtoMapper<ComputerDto, Computer>  {
 	
 	@Override

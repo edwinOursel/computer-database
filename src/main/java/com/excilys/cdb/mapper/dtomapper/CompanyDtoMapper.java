@@ -1,8 +1,13 @@
 package com.excilys.cdb.mapper.dtomapper;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.persistence.dto.CompanyDto;
 
+@Component
+@Scope("prototype")
 public class CompanyDtoMapper implements DtoMapper<CompanyDto, Company> {
 
 	@Override

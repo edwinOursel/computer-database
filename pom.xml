@@ -21,10 +21,7 @@
 		<mockito-all.version>1.10.19</mockito-all.version>
 		<slf4j-api.version>1.7.10</slf4j-api.version>
 		<selenium-java.version>2.45.0</selenium-java.version>
-		<spring-core.version>4.1.6.RELEASE</spring-core.version>
-		<spring-beans.version>4.1.6.RELEASE</spring-beans.version>
-		<spring-context.version>4.1.6.RELEASE</spring-context.version>
-		<spring-web.version>4.1.6.RELEASE</spring-web.version>
+		<spring.version>4.1.5.RELEASE</spring.version>
 
 		<configuration-source.version>1.8</configuration-source.version>
 		<configuration-target.version>1.8</configuration-target.version>
@@ -34,26 +31,19 @@
 
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>${spring-web.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>${spring-context.version}</version>
+			<version>${spring.version}</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
-			<version>${spring-beans.version}</version>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>${spring-core.version}</version>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
 		</dependency>
 
 		<dependency>

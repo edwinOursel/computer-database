@@ -9,6 +9,7 @@ import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.cdb.exception.ServiceException;
 import com.excilys.cdb.model.Company;
@@ -21,10 +22,17 @@ public class ComputerServiceTest extends DBTestCase {
 		
 	}
 	
+	@Autowired
+	private ComputerService computerService;
+	
+	public void setComputerService(ComputerService computerService) {
+		this.computerService = computerService;
+	}
+	
 	@Test
 	public void testGetAllThrowsErrorOnNull() {
 		//GIVEN
-		ComputerService c = ComputerService.INSTANCE;
+		ComputerService c = computerService;
 		
 		//WHEN
 		try {
@@ -42,7 +50,7 @@ public class ComputerServiceTest extends DBTestCase {
 	@Test
 	public void testGetByIdThrowsErrorOnNegative() {
 		//GIVEN
-		ComputerService c = ComputerService.INSTANCE;
+		ComputerService c = computerService;
 		
 		//WHEN
 		try {
@@ -60,7 +68,7 @@ public class ComputerServiceTest extends DBTestCase {
 	@Test
 	public void testCreateThrowsErrorOnNull() {
 		//GIVEN
-		ComputerService c = ComputerService.INSTANCE;
+		ComputerService c =  computerService;
 		
 		//WHEN
 		try {
@@ -78,7 +86,7 @@ public class ComputerServiceTest extends DBTestCase {
 	@Test
 	public void testUpdateThrowsErrorOnNull() {
 		//GIVEN
-		ComputerService c = ComputerService.INSTANCE;
+		ComputerService c = computerService;
 		
 		//WHEN
 		try {
@@ -96,7 +104,7 @@ public class ComputerServiceTest extends DBTestCase {
 	@Test
 	public void testDeleteThrowsErrorOnNegative() {
 		//GIVEN
-		ComputerService c = ComputerService.INSTANCE;
+		ComputerService c = computerService;
 		
 		//WHEN
 		try {
@@ -114,7 +122,7 @@ public class ComputerServiceTest extends DBTestCase {
 	@Test
 	public void testComputerCrud() {
 		//GIVEN
-		ComputerService c = ComputerService.INSTANCE;
+		ComputerService c = computerService;
 		Computer computer = new Computer();
 		Company company = new Company();
 		company.setName("Edwin corp");

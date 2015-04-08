@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
 import com.excilys.cdb.cli.Page;
 import com.excilys.cdb.exception.DAOException;
 import com.excilys.cdb.exception.ServiceException;
@@ -11,8 +14,9 @@ import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.ComputerDatabaseConnectionFactory;
 import com.excilys.cdb.persistence.dao.ComputerDAO;
 
-public enum ComputerService {
-	INSTANCE;
+@Component
+@Qualifier("computerService")
+public class ComputerService {
 	
 	
 	private static final ThreadLocal<Connection> connection = new ThreadLocal<Connection>(){
