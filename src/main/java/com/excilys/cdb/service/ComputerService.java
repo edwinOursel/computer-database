@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,22 +20,12 @@ import com.excilys.cdb.persistence.dao.ComputerDAO;
 public class ComputerService extends Service {
 	
 	@Autowired
-	private ComputerDatabaseConnectionFactory cdcf;
+	private static ComputerDatabaseConnectionFactory cdcf;
 	
 	@Autowired
 	private ComputerDAO computerDAO;
 	
-	private final ThreadLocal<Connection> connection = new ThreadLocal<Connection>(){
-        @Override
-        protected Connection initialValue()
-        {
-            try {
-				return cdcf.getConnection();
-			} catch (SQLException e) {
-				throw new DAOException(e);
-			}
-        }
-    };	
+		
     
     
 	public int count() {
