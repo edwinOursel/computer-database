@@ -29,6 +29,10 @@ public class ComputerDAO implements DAO<Computer, Long> {
 	private ComputerDatabaseConnectionFactory cf;
 	
 	
+	public void setCf(ComputerDatabaseConnectionFactory cf) {
+		this.cf = cf;
+	}
+
 	/**
      * Number of computers in the database.
      *
