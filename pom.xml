@@ -24,12 +24,27 @@
 		<spring.version>4.1.5.RELEASE</spring.version>
 		<jcloverslf4j.version>1.7.12</jcloverslf4j.version>
 		<commons-dbcp.version>1.4</commons-dbcp.version>
+		<spring-data-jpa.version>1.8.0.RELEASE</spring-data-jpa.version>
+		<persistence-api.version>1.0.2</persistence-api.version>
 
 		<configuration-source.version>1.8</configuration-source.version>
 		<configuration-target.version>1.8</configuration-target.version>
 	</properties>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>${persistence-api.version}</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>${spring-data-jpa.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>commons-dbcp</groupId>

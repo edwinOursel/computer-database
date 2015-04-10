@@ -1,10 +1,21 @@
 package com.excilys.cdb.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Company {
 	
-
+	@Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
+	
 	private String name;
+	
+	//constructeur vide pour Spring Data JPA et Mappers
+	public Company() {}
 	
 	public long getId() {
 		return id;
