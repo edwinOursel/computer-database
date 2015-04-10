@@ -1,26 +1,22 @@
 package com.excilys.cdb.controller;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.cdb.cli.Page;
 import com.excilys.cdb.cli.SimplePage;
 import com.excilys.cdb.mapper.dtomapper.ComputerDtoMapper;
 import com.excilys.cdb.service.ComputerService;
 
-@Component
-@WebServlet(urlPatterns = "/dashboard")
-public class Dashboard extends SpringHttpServlet {
-	private static final long serialVersionUID = 1L;
+@Controller
+@RequestMapping("/dashboard")
+public class Dashboard {
 
 	private static Logger logger = LoggerFactory.getLogger(Dashboard.class);
 	
@@ -30,13 +26,10 @@ public class Dashboard extends SpringHttpServlet {
 	@Autowired
 	private ComputerDtoMapper dtoMapper;
 		
-	
-	@Override
-    protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response) throws ServletException, IOException {
-		logger.info("Dashboard servlet called");		
-        String page = request.getParameter("page");
-        String size = request.getParameter("size");
+	@RequestMapping(method = RequestMethod.GET)
+	public String doGet(ModelMap model, @RequestParam(value = "page", required = false) String page,
+			@RequestParam(value = "size", required = false) String size) {
+		logger.info("Dashboard servlet called");
         Page p;
         int currentPage = 1, entitiesByPage = 20, pge = 1;
         if (page != null) {
@@ -58,17 +51,15 @@ public class Dashboard extends SpringHttpServlet {
         if (totalEntities % entitiesByPage != 0) {
             ++maxPages;
         }
-        request.setAttribute("totalPages", maxPages);
+        model.addAttribute("totalPages", maxPages);
         maxPages = Math.min(maxPages, pge + entitiesByPage - 1);
-        request.setAttribute("page", p);
-        request.setAttribute("sizePage", entitiesByPage);
-        request.setAttribute("maxPages", maxPages);
-        request.setAttribute("computers", dtoMapper.mapList(computerService.getAll(p)));        
-        request.setAttribute("currentPage", pge);
-        request.setAttribute("total", totalEntities);
-        getServletContext()
-                .getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(
-                request, response);
+        model.addAttribute("page", p);
+        model.addAttribute("sizePage", entitiesByPage);
+        model.addAttribute("maxPages", maxPages);
+        model.addAttribute("computers", dtoMapper.mapList(computerService.getAll(p)));        
+        model.addAttribute("currentPage", pge);
+        model.addAttribute("total", totalEntities);
+        return "dashboard";
     }
 
 }

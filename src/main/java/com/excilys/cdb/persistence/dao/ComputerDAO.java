@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.cdb.cli.Page;
 import com.excilys.cdb.exception.DAOException;
@@ -19,7 +19,7 @@ import com.excilys.cdb.mapper.ComputerMapper;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.ComputerDatabaseConnectionFactory;
 
-@Component
+@Repository
 public class ComputerDAO implements DAO<Computer, Long> {
 	
 	static private final String COMPUTER_TABLE = "computer";
@@ -29,9 +29,6 @@ public class ComputerDAO implements DAO<Computer, Long> {
 	private ComputerDatabaseConnectionFactory cf;
 	
 	
-	public void setCf(ComputerDatabaseConnectionFactory cf) {
-		this.cf = cf;
-	}
 
 	/**
      * Number of computers in the database.

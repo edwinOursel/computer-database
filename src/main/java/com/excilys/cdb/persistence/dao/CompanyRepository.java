@@ -8,8 +8,8 @@ import com.excilys.cdb.model.Company;
 
 public interface CompanyRepository extends CrudRepository<Company, Long> {
 
-	Company getById(Long id);
+	/*Company getById(Long id);
 	List<Company> getAll();
-	List<Long> getAllCompaniesId();
+	List<Long> getAllCompaniesId();*/
 	
 }
