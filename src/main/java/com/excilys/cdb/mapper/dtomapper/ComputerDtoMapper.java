@@ -35,7 +35,7 @@ public class ComputerDtoMapper implements DtoMapper<ComputerDto, Computer>  {
 		Computer c = new Computer();
 		c.setId(dto.getId());
 		c.setName(dto.getName());		
-		c.setCompany(companyDAO.getById(dto.getCompanyId()));
+		c.setCompany(companyDAO.findById(dto.getCompanyId()));
 		c.setIntroducedDate(LocalDateTime.parse(dto.getIntroducedDate(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
 		c.setDiscontinuedDate(LocalDateTime.parse(dto.getDiscontinuedDate(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
 		return c;

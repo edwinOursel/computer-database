@@ -18,7 +18,7 @@ public interface DAO<T, I extends Serializable> {
 	 * @return Entities
 	 * @throws DAOException
 	 */
-	default List<T> getAll() throws DAOException {
+	default List<T> findAll() throws DAOException {
 		throw new UnsupportedOperationException();
 	}
 
@@ -30,7 +30,7 @@ public interface DAO<T, I extends Serializable> {
 	 * @return The matching entity
 	 * @throws DAOException
 	 */
-	default T getById(I id) throws DAOException {
+	default T findById(I id) throws DAOException {
 		throw new UnsupportedOperationException();
 	}
 

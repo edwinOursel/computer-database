@@ -10,6 +10,6 @@ public interface CompanyRepository extends CrudRepository<Company, Long> {
 
 	Company findById(Long id);
 	List<Company> findAll();
-	List<Long> findAllById();
+	List<Long> findAllById(Long id);
 	
 }

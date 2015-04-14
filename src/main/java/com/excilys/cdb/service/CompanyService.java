@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import com.excilys.cdb.exception.DAOException;
 import com.excilys.cdb.exception.ServiceException;
 import com.excilys.cdb.model.Company;
+import com.excilys.cdb.persistence.dao.CompanyDAO;
 import com.excilys.cdb.persistence.dao.CompanyRepository;
 
 @Component
@@ -17,9 +18,12 @@ public class CompanyService {
 
 	Logger logger = LoggerFactory.getLogger(CompanyService.class);
 	
-	@Autowired
-	private CompanyRepository repository;
+//	@Autowired
+//	private CompanyRepository repository;
 		
+	@Autowired
+	private CompanyDAO repository;
+	
 	public List<Company> getAll() throws ServiceException {
 		try {			
 			logger.debug("CompanyService.getAll appelé");

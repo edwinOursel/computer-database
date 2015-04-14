@@ -25,7 +25,7 @@ public class CompanyDAO implements DAO<Company, Long> {
 	private ComputerDatabaseConnectionFactory cdcf;
 	
 	@Override
-	public List<Company> getAll() throws DAOException {
+	public List<Company> findAll() throws DAOException {
 		final List<Company> companies = new ArrayList<>();
 		final CompanyMapper companyMapper = new CompanyMapper();		
 		try (final Statement state = cdcf.getConnection().createStatement()) {
@@ -43,7 +43,7 @@ public class CompanyDAO implements DAO<Company, Long> {
 	}
 	
 	@Override
-    public Company getById(Long id) {
+    public Company findById(Long id) {
         final CompanyMapper companyMapper = new CompanyMapper();
         final String sql = "SELECT * FROM company WHERE id = ?";
 
@@ -60,7 +60,7 @@ public class CompanyDAO implements DAO<Company, Long> {
         return null;
     }
 
-    public List<Long> getAllCompaniesId() {
+    public List<Long> findAllById() {
         final List<Long> companies = new ArrayList<>();
 
         try (final Statement state = cdcf.getConnection().createStatement()) {

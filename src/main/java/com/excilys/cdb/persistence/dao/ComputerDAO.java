@@ -49,7 +49,7 @@ public class ComputerDAO implements DAO<Computer, Long> {
     }
 	
 	@Override
-	public List<Computer> getAll() throws DAOException {
+	public List<Computer> findAll() throws DAOException {
 		final List<Computer> computers = new ArrayList<>();
 		final ComputerMapper computerMapper = new ComputerMapper();
 
@@ -68,7 +68,7 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		return computers;
 	}
 	
-	public List<Computer> getAll(Page page) throws DAOException {
+	public List<Computer> findAll(Page page) throws DAOException {
 		final List<Computer> computers = new ArrayList<>();
 		final ComputerMapper computerMapper = new ComputerMapper();
 		PreparedStatement statement = null;
@@ -93,7 +93,7 @@ public class ComputerDAO implements DAO<Computer, Long> {
 	}
 
 	@Override
-	public Computer getById(Long id) throws DAOException {
+	public Computer findById(Long id) throws DAOException {
 		final ComputerMapper computerMapper = new ComputerMapper();
 		final String sql = "SELECT * FROM "+ COMPUTER_TABLE +" compu LEFT OUTER JOIN "
 				+ COMPANY_TABLE + " compa ON compu.company_id = compa.id WHERE compu.id = ?";

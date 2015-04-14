@@ -32,7 +32,7 @@ public class ComputerService extends Service {
 	
 	public List<Computer> getAll() throws ServiceException {
 		try {
-			return computerDAO.getAll();
+			return computerDAO.findAll();
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -43,7 +43,7 @@ public class ComputerService extends Service {
 			throw new IllegalArgumentException();
 		}
 		try {
-			return computerDAO.getAll(page);
+			return computerDAO.findAll(page);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -54,7 +54,7 @@ public class ComputerService extends Service {
 			throw new IllegalArgumentException();
 		}
 		try {
-			return computerDAO.getById(id);
+			return computerDAO.findById(id);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
