@@ -23,7 +23,7 @@ public class CompanyService {
 	public List<Company> getAll() throws ServiceException {
 		try {			
 			logger.debug("CompanyService.getAll appelé");
-			return repository.getAll();
+			return repository.findAll();
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -31,7 +31,7 @@ public class CompanyService {
 	
 	public List<Long> getAllCompaniesId() {
 		logger.debug("CompanyService.getAllCompaniesId appelé");
-        return repository.getAllCompaniesId();
+        return repository.findAllById();
     }
 	
 	 public Company getById(Long id) {
@@ -39,6 +39,6 @@ public class CompanyService {
         if (id <= 0) {
             throw new IllegalArgumentException();
         }
-        return repository.getById(id);
+        return repository.findById(id);
     }
 }

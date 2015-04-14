@@ -15,7 +15,7 @@
 	<context:property-placeholder location="classpath:config.properties" />
 
 	<jpa:repositories base-package="com.excilys.cdb.persistence" />
-
+	
 	<context:load-time-weaver />
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
