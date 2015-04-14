@@ -8,10 +8,12 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.cdb.exception.ServiceException;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.persistence.ComputerDatabaseConnectionFactory;
 import com.excilys.cdb.service.CompanyService;
 import com.excilys.cdb.service.ComputerService;
 import com.excilys.cdb.validation.ComputerDatabaseValidator;
@@ -20,6 +22,8 @@ import com.excilys.cdb.validation.ComputerDatabaseValidator;
  * Pattern command for the processing of actions.
  */
 public enum Command {
+	
+	
 	
 	/**
 	 * Retrieve all computers.
@@ -32,7 +36,7 @@ public enum Command {
 			if (ctx == null) {
 				throw new IllegalArgumentException();
 			}
-			ctx.setComputers(ComputerService.INSTANCE.getAll());
+			ctx.setComputers(computerService.getAll());
 			System.out.println(ctx.getComputers());
 			logger.info("Computers list printed with command getAllComputers");
 			logger.debug(ctx.getComputers().toString());
@@ -50,7 +54,7 @@ public enum Command {
 			if (ctx == null) {
 				throw new IllegalArgumentException();
 			}
-			ctx.setCompanies(CompanyService.INSTANCE.getAll());
+			ctx.setCompanies(companyService.getAll());
 			System.out.println(ctx.getCompanies());
 			logger.info("Companies list printed with command getAllCompanies");
 			logger.debug(ctx.getCompanies().toString());
@@ -70,7 +74,7 @@ public enum Command {
 			}
 			System.out.print("Identifier : ");
 			ctx.setComputerId(Long.valueOf(ctx.getScanner().getNextToken()));
-			ctx.setComputers(Arrays.asList(ComputerService.INSTANCE.getById(ctx
+			ctx.setComputers(Arrays.asList(computerService.getById(ctx
 					.getComputerId())));
 			System.out.println(ctx.getComputers());
 			logger.info("Computer printed with command getByIdComputer");
@@ -92,7 +96,7 @@ public enum Command {
 			final Computer computer = new Computer();
 			populate(ctx, computer);
 			ctx.setNewComputer(computer);
-			ctx.setComputerId(ComputerService.INSTANCE.create(ctx
+			ctx.setComputerId(computerService.create(ctx
 					.getNewComputer()));
 			if (ctx.getComputerId() > 0) {
 				System.out.println("Successfully created");
@@ -118,11 +122,11 @@ public enum Command {
 				throw new IllegalArgumentException();
 			}
 			System.out.println("Identifier : ");
-			final Computer computer = ComputerService.INSTANCE.getById(Long
+			final Computer computer = computerService.getById(Long
 					.valueOf(ctx.getScanner().getNextToken()));
 			populate(ctx, computer);
 			ctx.setNewComputer(computer);
-			ComputerService.INSTANCE.update(ctx.getNewComputer());
+			computerService.update(ctx.getNewComputer());
 			System.out.println("UPDATED");
 			logger.info("Computer changed with command createComputer");
 			logger.debug(computer.toString());
@@ -142,7 +146,7 @@ public enum Command {
 			}
 			System.out.print("Identifier : ");
 			ctx.setComputerId(Long.valueOf(ctx.getScanner().getNextToken()));
-			ComputerService.INSTANCE.delete(ctx.getComputerId());
+			computerService.delete(ctx.getComputerId());
 			System.out.println("Deleted");
 		}
 
@@ -256,6 +260,12 @@ public enum Command {
 		}
 		return c;
 	}
+	
+	@Autowired
+	private static ComputerService computerService;
+	
+	@Autowired
+	private static CompanyService companyService;
 
 	public abstract void execute(ComputerDatabaseContext ctx)
 			throws ServiceException;
