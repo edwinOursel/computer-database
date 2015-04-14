@@ -46,8 +46,8 @@ public class Dashboard {
             }
         }
         p = new SimplePage(currentPage, entitiesByPage); 
-        final int totalEntities = computerService.count();
-        int maxPages = (totalEntities / entitiesByPage);
+        final long totalEntities = computerService.count();
+        long maxPages = (totalEntities / entitiesByPage);
         if (totalEntities % entitiesByPage != 0) {
             ++maxPages;
         }

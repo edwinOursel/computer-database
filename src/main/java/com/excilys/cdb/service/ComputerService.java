@@ -11,7 +11,7 @@ import com.excilys.cdb.exception.DAOException;
 import com.excilys.cdb.exception.ServiceException;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.persistence.ComputerDatabaseConnectionFactory;
-import com.excilys.cdb.persistence.dao.ComputerDAO;
+import com.excilys.cdb.persistence.dao.ComputerRepository;
 
 @Component
 @Transactional(rollbackFor=DAOException.class)
@@ -21,18 +21,18 @@ public class ComputerService extends Service {
 	private static ComputerDatabaseConnectionFactory cdcf;
 	
 	@Autowired
-	private ComputerDAO computerDAO;
+	private ComputerRepository repository;
 	
 		
     
     
-	public int count() {
-        return computerDAO.count();
+	public long count() {
+        return repository.count();
     }
 	
 	public List<Computer> getAll() throws ServiceException {
 		try {
-			return computerDAO.findAll();
+			return repository.findAll();
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -43,7 +43,7 @@ public class ComputerService extends Service {
 			throw new IllegalArgumentException();
 		}
 		try {
-			return computerDAO.findAll(page);
+			return repository.findAll(page);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -54,7 +54,7 @@ public class ComputerService extends Service {
 			throw new IllegalArgumentException();
 		}
 		try {
-			return computerDAO.findById(id);
+			return repository.findById(id);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -65,7 +65,7 @@ public class ComputerService extends Service {
 			throw new IllegalArgumentException();
 		}
 		try {
-			return computerDAO.create(computer);
+			return repository.save(computer).getId();
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -76,7 +76,7 @@ public class ComputerService extends Service {
 			throw new IllegalArgumentException();
 		}
 		try {
-			computerDAO.update(computer);
+			repository.save(computer);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
@@ -87,7 +87,7 @@ public class ComputerService extends Service {
 			throw new IllegalArgumentException();
 		}
 		try {
-			computerDAO.delete(id);
+			repository.delete(id);
 		} catch (DAOException e) {
 			throw new ServiceException(e);
 		}
