@@ -35,7 +35,7 @@ public class CompanyService {
 	
 	public List<Long> getAllCompaniesId() {
 		logger.debug("CompanyService.getAllCompaniesId appelé");
-        return repository.findAllById();
+        return repository.getAllIds();
     }
 	
 	 public Company getById(Long id) {

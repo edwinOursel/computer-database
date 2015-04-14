@@ -60,7 +60,7 @@ public class CompanyDAO implements DAO<Company, Long> {
         return null;
     }
 
-    public List<Long> findAllById() {
+    public List<Long> getAllIds() {
         final List<Long> companies = new ArrayList<>();
 
         try (final Statement state = cdcf.getConnection().createStatement()) {
