@@ -1,12 +1,14 @@
 package com.excilys.cdb.service;
 
 import java.util.List;
+import org.springframework.data.domain.Page;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.excilys.cdb.cli.Page;
+
 import com.excilys.cdb.exception.DAOException;
 import com.excilys.cdb.exception.ServiceException;
 import com.excilys.cdb.model.Computer;
@@ -22,9 +24,7 @@ public class ComputerService extends Service {
 	
 	@Autowired
 	private ComputerRepository repository;
-	
-		
-    
+			   
     
 	public long count() {
         return repository.count();
@@ -38,7 +38,7 @@ public class ComputerService extends Service {
 		}
 	}
 	
-	public List<Computer> getAll(Page page) throws ServiceException {
+	public Page<Computer> getAll(Pageable page) throws ServiceException {
 		if (page == null) {
 			throw new IllegalArgumentException();
 		}

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.cdb.cli.Page;
@@ -68,7 +69,7 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		return computers;
 	}
 	
-	public List<Computer> findAll(Page page) throws DAOException {
+	public List<Computer> findAll(Pageable page) throws DAOException {
 		final List<Computer> computers = new ArrayList<>();
 		final ComputerMapper computerMapper = new ComputerMapper();
 		PreparedStatement statement = null;

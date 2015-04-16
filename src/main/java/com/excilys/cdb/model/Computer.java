@@ -2,13 +2,19 @@ package com.excilys.cdb.model;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
 
 @Entity
+@Table(name="computer")
 public class Computer {
 	
 	@Id
@@ -16,10 +22,17 @@ public class Computer {
 	private long id;
 	
 	private String name;
+	
+	@Type(type="com.excilys.cdb.model.LocalDateTimeUserType")
+	@Column(name="introduced")
 	private LocalDateTime introducedDate;
+	
+	@Type(type="com.excilys.cdb.model.LocalDateTimeUserType")
+	@Column(name="discontinued")
 	private LocalDateTime discontinuedDate;
 	
 	@ManyToOne
+	@JoinColumn(name="company_id")
 	private Company company;
 	
 	public Computer() {

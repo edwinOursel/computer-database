@@ -4,10 +4,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+
 /**
  * A simple page without information about entities.
  */
-public class SimplePage implements Page {
+public class SimplePage implements Pageable {
+	
+	/**
+	 * Default property on which apply the sorting
+	 */
+	final String DEFAULT_PROPERTY = "ID";
+	
 	private Sort sort;
 	private List<String> properties;
 	private int page;
@@ -30,7 +39,6 @@ public class SimplePage implements Page {
 		}
 		this.page = page;
 		this.size = size;
-		this.sort = Sort.ASC;
 		this.properties = new ArrayList<>();
 		this.properties.add(DEFAULT_PROPERTY);
 	}
@@ -140,5 +148,35 @@ public class SimplePage implements Page {
 
 	public void setPrevious(boolean previous) {
 		this.previous = previous;
+	}
+
+	@Override
+	public int getPageNumber() {
+		return page;
+	}
+
+	@Override
+	public int getPageSize() {
+		return size;
+	}
+
+	@Override
+	public Pageable next() {
+		return new SimplePage(page+1, size);
+	}
+
+	@Override
+	public Pageable previousOrFirst() {
+		return new SimplePage((page==0)?0:page-1, size);
+	}
+
+	@Override
+	public Pageable first() {
+		return new SimplePage(0, size);
+	}
+
+	@Override
+	public boolean hasPrevious() {
+		return previous;
 	}
 }

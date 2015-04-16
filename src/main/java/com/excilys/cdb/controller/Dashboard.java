@@ -3,13 +3,13 @@ package com.excilys.cdb.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.excilys.cdb.cli.Page;
 import com.excilys.cdb.cli.SimplePage;
 import com.excilys.cdb.mapper.dtomapper.ComputerDtoMapper;
 import com.excilys.cdb.service.ComputerService;
@@ -30,7 +30,7 @@ public class Dashboard {
 	public String doGet(ModelMap model, @RequestParam(value = "page", required = false) String page,
 			@RequestParam(value = "size", required = false) String size) {
 		logger.info("Dashboard servlet called");
-        Page p;
+        Pageable p;
         int currentPage = 1, entitiesByPage = 20, pge = 1;
         if (page != null) {
             page = page.trim();
