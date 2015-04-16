@@ -32,7 +32,7 @@ public class Dashboard {
 	public String doGet(Locale locale, ModelMap model, @RequestParam(value = "page", required = false) String page,
 			@RequestParam(value = "size", required = false) String size) {
 		logger.debug("Dashboard servlet called");
-		logger.debug("User Locale : " + locale.getISO3Language());
+		logger.debug("User Locale : " + locale.getDisplayCountry());
         Pageable p;
         int currentPage = 1, entitiesByPage = 20, pge = 1;
         if (page != null) {
@@ -42,6 +42,7 @@ public class Dashboard {
                 pge = currentPage;
             }
         }
+       // LocaleContextHolder.getLocale();
         if (size != null) {
             size = size.trim();
             if (!size.isEmpty()) {
