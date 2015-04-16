@@ -2,6 +2,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags/" prefix="p" %>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ page session="false"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +21,7 @@
         <a class="navbar-brand" href="<c:url value="/dashboard" />"> Application - Computer Database </a>
     </div>
 </header>
-
+<p><spring:message code="welcome.message" /></p>
 <section id="main">
     <div class="container">
         <h1 id="homeTitle">

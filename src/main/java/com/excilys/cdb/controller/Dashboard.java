@@ -1,5 +1,7 @@
 package com.excilys.cdb.controller;
 
+import java.util.Locale;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +29,10 @@ public class Dashboard {
 	private ComputerDtoMapper dtoMapper;
 		
 	@RequestMapping(method = RequestMethod.GET)
-	public String doGet(ModelMap model, @RequestParam(value = "page", required = false) String page,
+	public String doGet(Locale locale, ModelMap model, @RequestParam(value = "page", required = false) String page,
 			@RequestParam(value = "size", required = false) String size) {
-		logger.info("Dashboard servlet called");
+		logger.debug("Dashboard servlet called");
+		logger.debug("User Locale : " + locale.getISO3Language());
         Pageable p;
         int currentPage = 1, entitiesByPage = 20, pge = 1;
         if (page != null) {

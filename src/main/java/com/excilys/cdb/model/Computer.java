@@ -35,8 +35,7 @@ public class Computer {
 	@JoinColumn(name="company_id")
 	private Company company;
 	
-	public Computer() {
-    }
+	public Computer() {}
 
     public Computer(Long id, String name, LocalDateTime introduced,
                     LocalDateTime discontinued, Company company) {
