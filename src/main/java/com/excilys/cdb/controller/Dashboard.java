@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,9 +31,7 @@ public class Dashboard {
 		
 	@RequestMapping(method = RequestMethod.GET)
 	public String doGet(Locale locale, ModelMap model, @RequestParam(value = "page", required = false) String page,
-			@RequestParam(value = "size", required = false) String size) {
-		logger.debug("Dashboard servlet called");
-		logger.debug("User Locale : " + locale.getDisplayCountry());
+			@RequestParam(value = "size", required = false) String size, @ModelAttribute("message") final String message) {
         Pageable p;
         int currentPage = 1, entitiesByPage = 20, pge = 1;
         if (page != null) {
@@ -62,7 +61,9 @@ public class Dashboard {
         model.addAttribute("maxPages", maxPages);
         model.addAttribute("computers", dtoMapper.mapList(computerService.getAll(p)));        
         model.addAttribute("currentPage", pge);
-        model.addAttribute("total", totalEntities);
+        model.addAttribute("total", totalEntities); 
+        
+        model.addAttribute("message", message);
         return "dashboard";
     }
 

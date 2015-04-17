@@ -37,7 +37,7 @@ public class Computer {
 	
 	public Computer() {}
 
-    public Computer(Long id, String name, LocalDateTime introduced,
+    public Computer(long id, String name, LocalDateTime introduced,
                     LocalDateTime discontinued, Company company) {
         this.id = id;
         this.name = name;
@@ -48,7 +48,7 @@ public class Computer {
 
     public Computer(String name, LocalDateTime introduced,
                     LocalDateTime discontinued, Company company) {
-        this(null, name, introduced, discontinued, company);
+        this(-1, name, introduced, discontinued, company);
     }
 	
 	

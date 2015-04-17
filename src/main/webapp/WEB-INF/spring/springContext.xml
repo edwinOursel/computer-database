@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jpa="http://www.springframework.org/schema/data/jpa" 
-	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 			http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
@@ -14,14 +12,12 @@
         	http://www.springframework.org/schema/data/jpa
      		http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
      		http://www.springframework.org/schema/mvc
-			http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd"
+			http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd"
 	xmlns:tx="http://www.springframework.org/schema/tx">
 
 	<context:property-placeholder location="classpath:config.properties" />
 
 	<jpa:repositories base-package="com.excilys.cdb.persistence" />
-
-	
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="${driverClassName}" />
@@ -62,6 +58,6 @@
 	<context:component-scan base-package="com.excilys.cdb.mapper" />
 	<context:component-scan base-package="com.excilys.cdb.service" />
 
-
+	<mvc:annotation-driven ignore-default-model-on-redirect="true" />
 
 </beans>

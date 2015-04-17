@@ -22,6 +22,7 @@
     </div>
 </header>
 <p><spring:message code="welcome.message" /></p>
+<p>${message}</p>
 <section id="main">
     <div class="container">
         <h1 id="homeTitle">

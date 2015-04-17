@@ -1,29 +1,35 @@
 package com.excilys.cdb.controller;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.excilys.cdb.cli.LocalDateTimeUtil;
 import com.excilys.cdb.mapper.dtomapper.CompanyDtoMapper;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
+import com.excilys.cdb.persistence.dto.ComputerDto;
 import com.excilys.cdb.service.CompanyService;
 import com.excilys.cdb.service.ComputerService;
 
-@Component
-@WebServlet(urlPatterns = "/addComputer")
-public class AddComputer extends SpringHttpServlet {
-	private static final long serialVersionUID = 1L;
+@Controller
+@RequestMapping("/addComputer")
+public class AddComputer {
 
+	private static Logger logger = LoggerFactory.getLogger(AddComputer.class);
+	
 	@Autowired
 	private CompanyService companyService;
 	
@@ -32,48 +38,34 @@ public class AddComputer extends SpringHttpServlet {
 
 	@Autowired
 	private ComputerService computerService;
+		
+	@Autowired
+	ResourceBundleMessageSource messageSource;
 	
-	public void setComputerService(ComputerService computerService) {
-		this.computerService = computerService;
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView initDto(Locale locale, ModelMap model) {
+		model.addAttribute("companies", dtoMapper.mapList(companyService.getAll()));
+		return new ModelAndView("addComputer", "command", new ComputerDto());
 	}
 
-	public void setCompanyService(CompanyService companyService) {
-		this.companyService = companyService;
-	}
-
-	public void setDtoMapper(CompanyDtoMapper dtoMapper) {
-		this.dtoMapper = dtoMapper;
-	}
-	
-	@Override
-    protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("companies", dtoMapper.mapList(companyService.getAll()));
-        getServletContext().getRequestDispatcher(
-                "/WEB-INF/views/addComputer.jsp").forward(request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        // TODO validation
-        String name = req.getParameter("name");
-        String introduced = req.getParameter("introduced");
-        String discontinued = req.getParameter("discontinued");
-        String companyId = req.getParameter("companyId");
+	@RequestMapping(method = RequestMethod.POST)
+	public String doPost(Locale locale, ModelMap model, @ModelAttribute("SpringWeb")ComputerDto computer, RedirectAttributes redirectAttrs) {
+		
+        // TODO validation		
+        String name = computer.getName();
+        String introduced = computer.getIntroducedDate();
+        String discontinued = computer.getDiscontinuedDate();
+        long companyId = computer.getCompanyId();
+        logger.debug("name : " + name  + " introduced : " + introduced + " discontinued : " +  discontinued + " companyId : " + companyId);
         if (name != null) {
             name = name.trim();
             if (name.isEmpty()) {
-                req.setAttribute("message", "Name is mandatory");
-                getServletContext().getRequestDispatcher(
-                        "/WEB-INF/views/addComputer.jsp").forward(req, resp);
-                return;
+            	model.addAttribute("message", messageSource.getMessage("msg.nameNok", null, locale));
+            	return "addComputer";
             }
         } else {
-            req.setAttribute("message", "Name is mandatory");
-            getServletContext().getRequestDispatcher(
-                    "/WEB-INF/views/addComputer.jsp").forward(req, resp);
-            return;
+        	model.addAttribute("message", messageSource.getMessage("msg.nameNok", null, locale));
+            return "addComputer";
         }
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime introducedTime = null;
@@ -92,17 +84,14 @@ public class AddComputer extends SpringHttpServlet {
                 discontinuedTime = LocalDateTime.parse(discontinued, formatter);
             }
         }
-        Company company = null;
-        if (companyId != null) {
-            companyId = companyId.trim();
-            if (!companyId.isEmpty()) {
-                Long id = Long.valueOf(companyId);
-                company = companyService.getById(id);
-            }
-        }
+        Company company = companyService.getById(companyId);
+                
         computerService.create(new Computer(name, introducedTime,
                 discontinuedTime, company));
-        resp.sendRedirect("dashboard");
+        
+        redirectAttrs.addFlashAttribute("message", messageSource.getMessage("msg.addOk", null, locale));
+        
+        return "redirect:dashboard";
     }
 
 }
