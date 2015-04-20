@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="company")
@@ -14,6 +17,8 @@ public class Company {
     @GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	
+	@NotNull
+	@NotEmpty
 	private String name;
 	
 	//constructeur vide pour Spring Data JPA et Mappers

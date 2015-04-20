@@ -91,8 +91,8 @@
                 <td>
                     <a href="<c:url value="/editComputer?id=${computer.id}"/> " id="computerName_${computer.id}"><c:out value="${computer.name}"/></a>
                 </td>
-                <td>${computer.introducedDate}</td>
-                <td>${computer.discontinuedDate}</td>
+                <td>${computer.introduced}</td>
+                <td>${computer.discontinued}</td>
                 <td id='companyName_${computer.id}'>
                     <c:if test="${!empty computer.company}">
                         <c:out value="${computer.company}"/>

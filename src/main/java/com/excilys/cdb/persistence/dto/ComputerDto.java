@@ -2,14 +2,29 @@ package com.excilys.cdb.persistence.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.excilys.cdb.validation.LocaleDate;
+
 public class ComputerDto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private long id;
+	
+	@NotNull
+	@NotEmpty
 	private String name;
-	private String introducedDate;
-	private String discontinuedDate;
+	
+	@LocaleDate
+	private String introduced;
+	
+	@LocaleDate
+	private String discontinued;
 	private String company;
+	
+	@NotNull
 	private long companyId;
 	
 	public long getCompanyId() {
@@ -30,17 +45,17 @@ public class ComputerDto implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getIntroducedDate() {
-		return introducedDate;
+	public String getIntroduced() {
+		return introduced;
 	}
-	public void setIntroducedDate(String introducedDate) {
-		this.introducedDate = introducedDate;
+	public void setIntroduced(String introducedDate) {
+		this.introduced = introducedDate;
 	}
-	public String getDiscontinuedDate() {
-		return discontinuedDate;
+	public String getDiscontinued() {
+		return discontinued;
 	}
-	public void setDiscontinuedDate(String discontinuedDate) {
-		this.discontinuedDate = discontinuedDate;
+	public void setDiscontinued(String discontinuedDate) {
+		this.discontinued = discontinuedDate;
 	}
 	public String getCompany() {
 		return company;
@@ -51,7 +66,7 @@ public class ComputerDto implements Serializable {
 	@Override
 	public String toString() {
 		return "ComputerDto [id=" + id + ", name=" + name + ", introducedDate="
-				+ introducedDate + ", discontinuedDate=" + discontinuedDate
+				+ introduced + ", discontinuedDate=" + discontinued
 				+ ", company=" + company + "]";
 	}
 	

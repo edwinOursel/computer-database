@@ -5,6 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.model.Computer;
@@ -25,8 +26,8 @@ public class ComputerDtoMapper implements DtoMapper<ComputerDto, Computer>  {
 		dto.setId(c.getId());
 		dto.setCompany((c.getCompany() == null)? null : c.getCompany().getName());
 		dto.setCompanyId((c.getCompany() == null)? 0 : c.getCompany().getId());
-		dto.setIntroducedDate((c.getIntroducedDate() == null)? null : c.getIntroducedDate().toLocalDate().toString());
-		dto.setDiscontinuedDate((c.getDiscontinuedDate() == null)? null : c.getDiscontinuedDate().toLocalDate().toString());
+		dto.setIntroduced((c.getIntroducedDate() == null)? null : c.getIntroducedDate().toLocalDate().toString());
+		dto.setDiscontinued((c.getDiscontinuedDate() == null)? null : c.getDiscontinuedDate().toLocalDate().toString());
 		return dto;
 	}
 	
@@ -36,8 +37,10 @@ public class ComputerDtoMapper implements DtoMapper<ComputerDto, Computer>  {
 		c.setId(dto.getId());
 		c.setName(dto.getName());		
 		c.setCompany(companyDAO.findById(dto.getCompanyId()));
-		c.setIntroducedDate(LocalDateTime.parse(dto.getIntroducedDate(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
-		c.setDiscontinuedDate(LocalDateTime.parse(dto.getDiscontinuedDate(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+		c.setIntroducedDate(LocalDateTime.parse(dto.getIntroduced(), 
+				DateTimeFormatter.ISO_LOCAL_DATE_TIME.withLocale(LocaleContextHolder.getLocale())));
+		c.setDiscontinuedDate(LocalDateTime.parse(dto.getDiscontinued(), 
+				DateTimeFormatter.ISO_LOCAL_DATE_TIME.withLocale(LocaleContextHolder.getLocale())));
 		return c;
 	}
 

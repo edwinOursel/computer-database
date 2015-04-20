@@ -8,11 +8,11 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.excilys.cdb.cli.LocalDateTimeUtil;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 import com.excilys.cdb.service.CompanyService;
@@ -23,6 +23,9 @@ import com.excilys.cdb.service.ComputerService;
 public class EditComputer extends SpringHttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	@Autowired
+	private Validator validator;
+	
 	@Autowired
 	private CompanyService companyService;
 		
@@ -93,16 +96,18 @@ public class EditComputer extends SpringHttpServlet {
         if (introduced != null) {
             introduced = introduced.trim();
             if (!introduced.isEmpty()) {
-                introduced = LocalDateTimeUtil.convertToValidLocalDateTime(introduced);
-                introducedTime = LocalDateTime.parse(introduced, formatter);
+                if (validator.validate(introduced).size() == 0) {
+                    introducedTime = LocalDateTime.parse(introduced, formatter);
+                }
             }
         }
         LocalDateTime discontinuedTime = null;
         if (discontinued != null) {
             discontinued = discontinued.trim();
             if (!discontinued.isEmpty()) {
-                discontinued = LocalDateTimeUtil.convertToValidLocalDateTime(discontinued);
-                discontinuedTime = LocalDateTime.parse(discontinued, formatter);
+            	if (validator.validate(discontinued).size() == 0) {
+            		discontinuedTime = LocalDateTime.parse(discontinued, formatter);
+                }
             }
         }
         Company company = null;

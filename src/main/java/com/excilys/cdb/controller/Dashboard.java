@@ -31,7 +31,7 @@ public class Dashboard {
 		
 	@RequestMapping(method = RequestMethod.GET)
 	public String doGet(Locale locale, ModelMap model, @RequestParam(value = "page", required = false) String page,
-			@RequestParam(value = "size", required = false) String size, @ModelAttribute("message") final String message) {
+			@RequestParam(value = "size", required = false) String size) {
         Pageable p;
         int currentPage = 1, entitiesByPage = 20, pge = 1;
         if (page != null) {
@@ -41,7 +41,6 @@ public class Dashboard {
                 pge = currentPage;
             }
         }
-       // LocaleContextHolder.getLocale();
         if (size != null) {
             size = size.trim();
             if (!size.isEmpty()) {
@@ -62,8 +61,6 @@ public class Dashboard {
         model.addAttribute("computers", dtoMapper.mapList(computerService.getAll(p)));        
         model.addAttribute("currentPage", pge);
         model.addAttribute("total", totalEntities); 
-        
-        model.addAttribute("message", message);
         return "dashboard";
     }
 
