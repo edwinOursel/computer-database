@@ -8,26 +8,17 @@
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security-4.0.xsd">
 
-	<http use-expressions="false" auto-config="true">
-		<intercept-url pattern="/**" access="ROLE_USER" />
+	<http use-expressions="false" entry-point-ref="digestEntryPoint">
+		<intercept-url pattern="/dashboard**" access="ROLE_USER, ROLE_ADMIN" />
+		<intercept-url pattern="/addComputer**" access="ROLE_ADMIN" />
+		<intercept-url pattern="/editComputer**" access="ROLE_ADMIN" />
+		<custom-filter ref="digestFilter" after="BASIC_AUTH_FILTER" />
 	</http>
-
-	<authentication-manager>
-		<authentication-provider>
-			<user-service>
-				<user name="admin" password="admin1234" authorities="ROLE_USER" />
-			</user-service>
-		</authentication-provider>
-	</authentication-manager>
-
-
-
 
 	<beans:bean id="digestEntryPoint"
 		class="org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint">
-		<beans:property name="realmName" value="Contacts Realm via Digest Authentication" />
-		<beans:property name="key" value="acegi" />
-		<beans:property name="nonceValiditySeconds" value="10" />
+		<beans:property name="realmName" value="cdb" />
+		<beans:property name="key" value="cbdKey" />		
 	</beans:bean>
 	
 	<beans:bean id="userDetailsService"
@@ -39,6 +30,7 @@
 		class="org.springframework.security.web.authentication.www.DigestAuthenticationFilter">
 		<beans:property name="userDetailsService" ref="userDetailsService" />
 		<beans:property name="authenticationEntryPoint" ref="digestEntryPoint" />
+		<beans:property name="passwordAlreadyEncoded" value="true" />
 	</beans:bean>
 
 </beans:beans>

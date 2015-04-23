@@ -30,27 +30,29 @@
 							<div class="form-group">
 								<c:if test="${!empty name}">
 									<p>${name}</p>
-								</c:if>			
-											
+								</c:if>
+
 								<label for="name">Computer name</label> <input type="text"
 									class="form-control" id="name" name="name"
-									placeholder="Computer name"/>
+									placeholder="Computer name" />
 							</div>
 							<div class="form-group">
-									<c:if test="${!empty introduced}">
+								<c:if test="${!empty introduced}">
 									<div>${introduced}</div>
-								</c:if>	
-								<label for="introduced">Introduced date "<spring:message code="datePatternShow" />"</label> 
-									<input type="text" class="form-control" id="introduced" name="introduced"
-									placeholder="Introduced date"/>
+								</c:if>
+								<label for="introduced">Introduced date "<spring:message
+										code="datePatternShow" />"
+								</label> <input type="text" class="form-control" id="introduced"
+									name="introduced" placeholder="Introduced date" />
 							</div>
 							<div class="form-group">
 								<c:if test="${!empty discontinued}">
 									<p>${discontinued}</p>
-								</c:if>							
-								<label for="discontinued">Discontinued date "<spring:message code="datePatternShow" />"</label> 
-								<input type="text" class="form-control"	id="discontinued" name="discontinued"
-									placeholder="Discontinued date"/>
+								</c:if>
+								<label for="discontinued">Discontinued date "<spring:message
+										code="datePatternShow" />"
+								</label> <input type="text" class="form-control" id="discontinued"
+									name="discontinued" placeholder="Discontinued date" />
 							</div>
 							<div class="form-group">
 								<label for="companyId">Company</label> <select
@@ -62,14 +64,16 @@
 							</div>
 						</fieldset>
 						<div class="actions pull-right">
-							<input type="submit" value="Add" class="btn btn-primary"/>
-							or <a class="btn btn-default" href="<c:url value="/dashboard" />">Cancel</a>
+							<input type="submit" value="Add" class="btn btn-primary" /> or <a
+								class="btn btn-default" href="<c:url value="/dashboard" />">Cancel</a>
 						</div>
+						<input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" />
 					</form>
 				</div>
 			</div>
 		</div>
 	</section>
-	
+
 </body>
 </html>
