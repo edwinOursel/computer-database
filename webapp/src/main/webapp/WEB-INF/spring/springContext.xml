@@ -50,10 +50,13 @@
 		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
 
 
+
+
 	<import resource="classpath*:core-context.xml" />
 	<import resource="classpath*:persistence-context.xml" />
 	<import resource="classpath*:binding-context.xml" />
 	<import resource="classpath*:service-context.xml" />
+	<import resource="classpath*:spring-security.xml" />
 
 	<mvc:annotation-driven
 		ignore-default-model-on-redirect="true" />
