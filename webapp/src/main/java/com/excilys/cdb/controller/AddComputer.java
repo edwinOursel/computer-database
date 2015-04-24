@@ -64,7 +64,6 @@ public class AddComputer {
         
         if (validationResult.hasErrors()) {
         	for (FieldError e : validationResult.getFieldErrors()) {
-        		//validationResult.rejectValue(e.getField(), messageSource.getMessage(e.getField() + "Nok", null, locale));
         		redirectAttrs.addFlashAttribute(e.getField(), messageSource.getMessage(e.getField() + "Nok", null, locale));
             }
         	

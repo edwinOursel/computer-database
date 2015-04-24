@@ -21,27 +21,7 @@
 
 	<jpa:repositories base-package="com.excilys.cdb.persistence" />
 
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-		<property name="driverClassName" value="${driverClassName}" />
-		<property name="url" value="${url}" />
-		<property name="username" value="${user}" />
-		<property name="password" value="${password}" />
-	</bean>
-
-	<bean id="jpaVendorAdapter"
-		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
-		p:database="MYSQL" p:databasePlatform="org.hibernate.dialect.MySQL5Dialect"
-		p:showSql="true" />
-
-	<bean id="entityManagerFactory"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="dataSource" ref="dataSource" />
-		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
-		<property name="persistenceUnitName" value="persistence-unit" />
-		<property name="persistenceXmlLocation"
-			value="classpath:META-INF/persistence/persistence.xml" />
-	</bean>
-
+	
 
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />

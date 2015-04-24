@@ -1,4 +1,11 @@
-package com.excilys.cdb.main;
+package com.excilys.old;
+
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+//
+//import com.excilys.cdb.cli.Command;
+//import com.excilys.cdb.cli.ComputerDatabaseContext;
+//import com.excilys.cdb.cli.ComputerDatabaseScanner;
 
 
 public class Main {

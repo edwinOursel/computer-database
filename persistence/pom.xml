@@ -16,7 +16,13 @@
 			<groupId>${parent.groupId}</groupId>
 			<artifactId>core</artifactId>
 		</dependency>
-		
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>3.1</version>
+		</dependency>
+
+
 	</dependencies>
 
 </project>
