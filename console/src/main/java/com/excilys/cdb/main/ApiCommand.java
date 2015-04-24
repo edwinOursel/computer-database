@@ -1,17 +1,19 @@
-package com.excilys.cdb.cli;
+package com.excilys.cdb.main;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.validation.Validator;
 
-import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import com.excilys.cdb.cli.ComputerDatabaseContext;
 import com.excilys.cdb.exception.ServiceException;
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
@@ -19,9 +21,9 @@ import com.excilys.cdb.service.CompanyService;
 import com.excilys.cdb.service.ComputerService;
 
 /**
- * Pattern command for the processing of actions.
+ * Pattern ApiCommand for the processing of actions.
  */
-public enum Command {
+public enum ApiCommand {
 	
 	
 	
@@ -31,15 +33,15 @@ public enum Command {
 	GET_ALL_COMPUTERS("getAllComputers") {
 
 		@Override
-		public void execute(ComputerDatabaseContext ctx)
+		public String execute(ComputerDatabaseContext ctx)
 				throws ServiceException {
 			if (ctx == null) {
 				throw new IllegalArgumentException();
 			}
 			ctx.setComputers(computerService.getAll());
-			System.out.println(ctx.getComputers());
-			logger.info("Computers list printed with command getAllComputers");
+			logger.info("Computers list printed with ApiCommand getAllComputers");
 			logger.debug(ctx.getComputers().toString());
+			return ctx.getComputers().toString();			
 		}
 
 	},
@@ -49,15 +51,16 @@ public enum Command {
 	GET_ALL_COMPANIES("getAllCompanies") {
 
 		@Override
-		public void execute(ComputerDatabaseContext ctx)
+		public String execute(ComputerDatabaseContext ctx)
 				throws ServiceException {
 			if (ctx == null) {
 				throw new IllegalArgumentException();
 			}
 			ctx.setCompanies(companyService.getAll());
-			System.out.println(ctx.getCompanies());
-			logger.info("Companies list printed with command getAllCompanies");
+
+			logger.info("Companies list printed with ApiCommand getAllCompanies");
 			logger.debug(ctx.getCompanies().toString());
+			return ctx.getCompanies().toString();
 		}
 
 	},
@@ -67,7 +70,7 @@ public enum Command {
 	GET_BY_ID_COMPUTER("getByIdComputer") {
 
 		@Override
-		public void execute(ComputerDatabaseContext ctx)
+		public String execute(ComputerDatabaseContext ctx)
 				throws ServiceException {
 			if (ctx == null) {
 				throw new IllegalArgumentException();
@@ -76,9 +79,9 @@ public enum Command {
 			ctx.setComputerId(Long.valueOf(ctx.getScanner().next()));
 			ctx.setComputers(Arrays.asList(computerService.getById(ctx
 					.getComputerId())));
-			System.out.println(ctx.getComputers());
-			logger.info("Computer printed with command getByIdComputer");
+			logger.info("Computer printed with ApiCommand getByIdComputer");
 			logger.debug(ctx.getComputers().toString());
+			return ctx.getComputers().toString();
 		}
 
 	},
@@ -88,7 +91,7 @@ public enum Command {
 	CREATE_COMPUTER("createComputer") {
 
 		@Override
-		public void execute(ComputerDatabaseContext ctx)
+		public String execute(ComputerDatabaseContext ctx)
 				throws ServiceException {
 			if (ctx == null) {
 				throw new IllegalArgumentException();
@@ -99,13 +102,14 @@ public enum Command {
 			ctx.setComputerId(computerService.create(ctx
 					.getNewComputer()));
 			if (ctx.getComputerId() > 0) {
-				System.out.println("Successfully created");
-				logger.info("Successful attempt to create a computer with command createComputer");
+				logger.info("Successful attempt to create a computer with ApiCommand createComputer");
 				logger.debug(ctx.getComputers().toString());
+				return "Successfully created";
 			} else {
-				System.out.println("Failed to create");
-				logger.info("Failed attempt to create a computer with command createComputer");
+
+				logger.info("Failed attempt to create a computer with ApiCommand createComputer");
 				logger.debug(String.valueOf(ctx.getComputerId()));
+				return "Failed to create";
 			}
 		}
 
@@ -116,7 +120,7 @@ public enum Command {
 	UPDATE_COMPUTER("updateComputer") {
 
 		@Override
-		public void execute(ComputerDatabaseContext ctx)
+		public String execute(ComputerDatabaseContext ctx)
 				throws ServiceException {
 			if (ctx == null) {
 				throw new IllegalArgumentException();
@@ -127,9 +131,10 @@ public enum Command {
 			populate(ctx, computer);
 			ctx.setNewComputer(computer);
 			computerService.update(ctx.getNewComputer());
-			System.out.println("UPDATED");
-			logger.info("Computer changed with command createComputer");
+
+			logger.info("Computer changed with ApiCommand createComputer");
 			logger.debug(computer.toString());
+			return "UPDATED";
 		}
 
 	},
@@ -139,15 +144,14 @@ public enum Command {
 	DELETE_COMPUTER("deleteComputer") {
 
 		@Override
-		public void execute(ComputerDatabaseContext ctx)
+		public String execute(ComputerDatabaseContext ctx)
 				throws ServiceException {
 			if (ctx == null) {
 				throw new IllegalArgumentException();
 			}
-			System.out.print("Identifier : ");
 			ctx.setComputerId(Long.valueOf(ctx.getScanner().next()));
 			computerService.delete(ctx.getComputerId());
-			System.out.println("Deleted");
+			return "Identifier : " + ctx.getComputerId() + "Deleted";
 		}
 
 	},
@@ -157,49 +161,47 @@ public enum Command {
 	HELP("help") {
 
 		@Override
-		public void execute(ComputerDatabaseContext ctx)
+		public String execute(ComputerDatabaseContext ctx)
 				throws ServiceException {
 			if (ctx == null) {
 				throw new IllegalArgumentException();
 			}
-			System.out.print("Legal commands : ");
-			System.out.print("-getAllComputers");
-			System.out.print("-getAllCompanies");
+			return ("Legal ApiCommands : getAllComputers, getAllCompanies");
 		}
 
 	},
 	/**
-	 * Command to terminate a program.
+	 * ApiCommand to terminate a program.
 	 */
 	EXIT("exit") {
 
 		@Override
-		public void execute(ComputerDatabaseContext ctx)
+		public String execute(ComputerDatabaseContext ctx)
 				throws ServiceException {
 			if (ctx == null) {
 				throw new IllegalArgumentException();
 			}
-			System.out.println("Program terminated");
 			ctx.setExit(true);
-			logger.info("Program terminated with command exit");
+			logger.info("Program terminated with ApiCommand exit");
+			return "Program terminated";
 		}
 
 	};
 
-	private static Map<String, Command> commands;
+	private static Map<String, ApiCommand> ApiCommands;
 	static {
-		commands = new HashMap<>();
-		for (Command com : Command.values()) {
-			commands.put(com.commandLabel, com);
+		ApiCommands = new HashMap<>();
+		for (ApiCommand com : ApiCommand.values()) {
+			ApiCommands.put(com.ApiCommandLabel, com);
 		}
 	}
 		
-	private static Logger logger = LoggerFactory.getLogger(Command.class);
+	private static Logger logger = LoggerFactory.getLogger(ApiCommand.class);
 
-	private final String commandLabel;
+	private final String ApiCommandLabel;
 
-	private Command(String commandLabel) {
-		this.commandLabel = commandLabel;
+	private ApiCommand(String ApiCommandLabel) {
+		this.ApiCommandLabel = ApiCommandLabel;
 	}
 	
 	/*
@@ -247,30 +249,59 @@ public enum Command {
 	}
 
 	/**
-	 * Return a command from its textual value.
+	 * Return a ApiCommand from its textual value.
 	 * 
-	 * @param command Textual command
-	 * @return The matching command
+	 * @param ApiCommand Textual ApiCommand
+	 * @return The matching ApiCommand
 	 */
-	public static Command getCommand(String command) {
-		Command c = commands.get(command);	
+	public static ApiCommand getCommand(String command) {
+		ApiCommand c = ApiCommands.get(command);	
 		if (c == null) {
-			logger.info("Bad command entered, redirected on help");
-			c = Command.HELP;
+			logger.info("Bad ApiCommand entered, redirected on help");
+			c = ApiCommand.HELP;
 		}
 		return c;
 	}
 	
 	
-	@Autowired
+	@Component
+	public static class ReportTypeServiceInjector {
+		@Autowired
+		private ComputerService computerService;
+		
+		@Autowired
+		private CompanyService companyService;
+		
+		@Autowired
+		private Validator validator;
+
+	    @PostConstruct
+	    public void postConstruct() {
+	    	ApiCommand.setComputerService(computerService);
+	    	ApiCommand.setCompanyService(companyService);
+	    	ApiCommand.setValidator(validator);           
+	    }
+	}
+	
+	
+
+	public abstract String execute(ComputerDatabaseContext ctx)
+			throws ServiceException;
+
+	private static CompanyService companyService;
+	private static Validator validator;
 	private static ComputerService computerService;
 	
-	@Autowired
-	private static CompanyService companyService;
 	
-	@Autowired
-	private static Validator validator;
+	public static void setCompanyService(CompanyService companyService) {
+		ApiCommand.companyService = companyService;
+	}
 
-	public abstract void execute(ComputerDatabaseContext ctx)
-			throws ServiceException;
+	public static void setValidator(Validator validator) {
+		ApiCommand.validator = validator;
+	}
+
+	public static void setComputerService(ComputerService computerService) {
+		ApiCommand.computerService = computerService;	
+	}
 }

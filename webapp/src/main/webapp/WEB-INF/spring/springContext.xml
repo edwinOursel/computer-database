@@ -15,11 +15,7 @@
 			http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd"
 	xmlns:tx="http://www.springframework.org/schema/tx">
 
-	<context:annotation-config />
-
-	<context:property-placeholder location="classpath:config.properties" />
-
-	<jpa:repositories base-package="com.excilys.cdb.persistence" />
+	
 
 	
 

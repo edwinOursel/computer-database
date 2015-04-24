@@ -1,24 +1,29 @@
 package com.excilys.cdb.cli;
 
 import java.util.List;
+import java.util.Scanner;
+
+import org.springframework.stereotype.Component;
 
 import com.excilys.cdb.model.Company;
 import com.excilys.cdb.model.Computer;
 
+@Component
 public class ComputerDatabaseContext {
 	private List<Computer> computers;
 	private List<Company> companies;
 	private Computer newComputer;
 	private long computerId;
-	private ComputerDatabaseScanner scanner;
+	private Scanner scanner;
+	private boolean exit;
 	
 	public ComputerDatabaseContext() {}
 	
-	public ComputerDatabaseContext(ComputerDatabaseScanner scanner) {
+	public ComputerDatabaseContext(Scanner scanner) {
 		this.scanner = scanner;
 	}
 	
-	public ComputerDatabaseScanner getScanner() {
+	public Scanner getScanner() {
 		return scanner;
 	}
 
@@ -54,8 +59,16 @@ public class ComputerDatabaseContext {
 		this.newComputer = newComputer;
 	}
 
-	public void setScanner(ComputerDatabaseScanner scanner) {
+	public void setScanner(Scanner scanner) {
 		this.scanner = scanner;
+	}
+
+	public boolean isExit() {
+		return exit;
+	}
+
+	public void setExit(boolean exit) {
+		this.exit = exit;
 	}
 	
 	

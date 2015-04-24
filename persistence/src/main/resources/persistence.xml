@@ -6,7 +6,7 @@
 	version="1.0">
 
 	<persistence-unit name="persistence-unit" transaction-type="RESOURCE_LOCAL">
-		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 		<jta-data-source>dataSource</jta-data-source>
 		
 		<jar-file>classpath*:WEB-INF/lib/persistence-0.0.1-SNAPSHOT.jar</jar-file>

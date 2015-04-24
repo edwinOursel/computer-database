@@ -1,4 +1,4 @@
-package com.excilys.old;
+package com.excilys.cdb.cli;
 
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
@@ -15,7 +15,7 @@ public class Main {
 //		
 //		Logger logger = LoggerFactory.getLogger(Main.class);
 //	    logger.info("Program started");
-//		while (!scanner.isExit()) {
+//		while (!ctx.isExit()) {
 //			Command.getCommand(scanner.getNextToken()).execute(ctx);
 //		}
 //		logger.info("Program terminated");

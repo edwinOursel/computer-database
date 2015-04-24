@@ -2,12 +2,20 @@ package com.excilys.cdb.cli;
 
 import java.util.Scanner;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ComputerDatabaseScanner {
+		
 	private final Scanner scanner;
 	private boolean exit;
 	
 	public ComputerDatabaseScanner() {
-		scanner = new Scanner(System.in);
+		scanner = null;
+	}
+	
+	public ComputerDatabaseScanner(Scanner scanner) {
+		this.scanner = scanner;
 	}
 	
 	public boolean hasNextToken() {

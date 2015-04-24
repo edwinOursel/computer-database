@@ -16,13 +16,17 @@
 	<import resource="classpath*:core-context.xml" />
 
 	<context:component-scan base-package="com.excilys.cdb.persistence.dao" />
-	<jpa:repositories base-package="com.excilys.cdb.persistence.dao" />
+	<context:annotation-config />
+
+	<context:property-placeholder location="classpath:config.properties" />
+
+	<jpa:repositories base-package="com.excilys.cdb.persistence" />
 
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="${driverClassName}" />
 		<property name="url" value="${url}" />
-		<property name="username" value="${user}" />
+		<property name="username" value="${username}" />
 		<property name="password" value="${password}" />
 	</bean>
 
