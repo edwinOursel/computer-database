@@ -1,24 +1,24 @@
 package com.excilys.cdb.cli;
 
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//
-//import com.excilys.cdb.cli.Command;
-//import com.excilys.cdb.cli.ComputerDatabaseContext;
-//import com.excilys.cdb.cli.ComputerDatabaseScanner;
+import java.util.Scanner;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.excilys.cdb.main.ApiCommand;
 
 
 public class Main {
 	public static void main(String[] args) throws Exception {
-//		ComputerDatabaseScanner scanner = new ComputerDatabaseScanner();
-//		ComputerDatabaseContext ctx = new ComputerDatabaseContext(scanner);
-//		
-//		Logger logger = LoggerFactory.getLogger(Main.class);
-//	    logger.info("Program started");
-//		while (!ctx.isExit()) {
-//			Command.getCommand(scanner.getNextToken()).execute(ctx);
-//		}
-//		logger.info("Program terminated");
+		Scanner scanner = new Scanner(System.in);
+		ComputerDatabaseContext ctx = new ComputerDatabaseContext(scanner);
+		
+		Logger logger = LoggerFactory.getLogger(Main.class);
+	    logger.info("Program started");
+		while (!ctx.isExit()) {
+			System.out.println(ApiCommand.getCommand(scanner.next()).execute(ctx));
+		}
+		logger.info("Program terminated");
 	}
 
 }

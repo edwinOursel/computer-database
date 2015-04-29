@@ -1,12 +1,16 @@
 package com.excilys.cdb.main;
 
+import java.awt.List;
 import java.util.Arrays;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.validation.Validator;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,10 +42,15 @@ public enum ApiCommand {
 			if (ctx == null) {
 				throw new IllegalArgumentException();
 			}
-			ctx.setComputers(computerService.getAll());
+			
 			logger.info("Computers list printed with ApiCommand getAllComputers");
-			logger.debug(ctx.getComputers().toString());
-			return ctx.getComputers().toString();			
+			WebTarget t = target.path("computer/getAll");
+			Builder b = t.request();
+			
+			String l = b.get(String.class);
+			
+			//Response i = b.get();
+			return l.toString();//target.path("computer/getAll").request().buildGet().invoke().toString();			
 		}
 
 	},
@@ -56,11 +65,9 @@ public enum ApiCommand {
 			if (ctx == null) {
 				throw new IllegalArgumentException();
 			}
-			ctx.setCompanies(companyService.getAll());
-
+			
 			logger.info("Companies list printed with ApiCommand getAllCompanies");
-			logger.debug(ctx.getCompanies().toString());
-			return ctx.getCompanies().toString();
+			return target.path("company/getAll").request(MediaType.APPLICATION_JSON_TYPE).get(List.class).toString();
 		}
 
 	},
@@ -111,7 +118,22 @@ public enum ApiCommand {
 				logger.debug(String.valueOf(ctx.getComputerId()));
 				return "Failed to create";
 			}
+			
+			
+/*Scanner scanner = ctx.getScanner();
+			
+			Form form = new Form();
+			form.param("name", scanner.next());
+			form.param("introduced", scanner.next());
+			form.param("discontinued", scanner.next());
+			form.param("companyId", scanner.next());
+
+			logger.info("Companies list printed with ApiCommand getAllCompanies");
+			return target.path("computer/create").request(MediaType.APPLICATION_JSON_TYPE).post(
+					Entity.entity(form,MediaType.APPLICATION_FORM_URLENCODED_TYPE), List.class).toString();*/
 		}
+		
+		
 
 	},
 	/**
@@ -292,6 +314,7 @@ public enum ApiCommand {
 	private static Validator validator;
 	private static ComputerService computerService;
 	
+	private static WebTarget target = ClientBuilder.newClient().target("http://localhost:8080").path("api");
 	
 	public static void setCompanyService(CompanyService companyService) {
 		ApiCommand.companyService = companyService;

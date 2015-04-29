@@ -21,7 +21,7 @@ public class Api {
 	
 	@POST
 	@Consumes("text/plain")
-	public Response savePayment(String request) {
+	public Response apiEntry(String request) {
 		Scanner scanner = new Scanner(request);
 		ctx.setScanner(scanner);
 		return Response.status(200).entity(ApiCommand.getCommand(scanner.next()).execute(ctx)).build(); 
