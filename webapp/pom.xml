@@ -13,23 +13,33 @@
 
 	<properties>
 		<spring-security.version>4.0.0.RELEASE</spring-security.version>
+		<jetty.version>9.3.0.M2</jetty.version>
+		<jetty.port>8123</jetty.port>
+		<webapp.dir>src/main</webapp.dir>
+		<mysql-connector-java.version>5.1.34</mysql-connector-java.version>
+		<maven.failsafe.version>2.18.1</maven.failsafe.version>
+		<sql.maven.plugin.version>1.5</sql.maven.plugin.version>
+		<ojdbc14.version>10.2.0.4</ojdbc14.version>
+		<selenium.version>2.3</selenium.version>
+		<groovy.version>2.4.3</groovy.version>
+		<gmaven.version>1.0</gmaven.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
-			<groupId>${parent.groupId}</groupId>
+			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>core</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>${parent.groupId}</groupId>
+			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>persistence</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>${parent.groupId}</groupId>
+			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>binding</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>${parent.groupId}</groupId>
+			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>service</artifactId>
 		</dependency>
 
@@ -51,7 +61,217 @@
 			<version>4.0.0.RELEASE</version>
 		</dependency>
 
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql-connector-java.version}</version>
+		</dependency>
+
+
 
 	</dependencies>
 
+
+
+	<!-- lancer le profil de test avec : $ mvn -Denv=dev verify -->
+	<profiles>
+		<profile>
+			<id>test.profile</id>
+			<activation>
+				<property>
+					<name>env</name>
+					<value>dev</value>
+				</property>
+			</activation>
+
+			<!-- Build maven, gestion du cycle de vie et tests -->
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>${maven.failsafe.version}</version>
+						<configuration>
+							<reportsDirectory>${basedir}/target/surefire-reports</reportsDirectory>
+							<includes>
+								<include>com/excilys/cdb/selenium/**/*.java</include> <!-- ... inclure les tests Selenium -->
+							</includes>
+							<systemPropertyVariables>
+								<jetty.port>${jetty.port}</jetty.port>
+								<jetty.context>${artifactId}</jetty.context>
+							</systemPropertyVariables>
+						</configuration>
+						<executions>
+							<execution>
+								<id>integration-test</id>
+								<goals>
+									<goal>integration-test</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>verify</id>
+								<goals>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<!-- configuration selenium -->
+					<!-- lancer le serveur selenium avec : $ mvn selenium:start-server -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>selenium-maven-plugin</artifactId>
+						<version>${selenium.version}</version>
+						<executions>
+							<execution>
+								<id>start</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>start-server</goal>
+								</goals>
+								<configuration>
+									<background>true</background>
+								</configuration>
+							</execution>
+							<execution>
+								<id>stop</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>stop-server</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+
+
+					<!-- nécessaire pour jetty -->
+					<plugin>
+						<groupId>org.codehaus.groovy.maven</groupId>
+						<artifactId>gmaven-plugin</artifactId>
+						<version>${gmaven.version}</version>
+						<dependencies>
+							<dependency>
+								<groupId>groovy</groupId>
+								<artifactId>groovy-all</artifactId>
+								<version>1.0</version>
+							</dependency>
+							<dependency>
+								<groupId>org.codehaus.groovy.maven.runtime</groupId>
+								<artifactId>gmaven-runtime-1.7</artifactId>
+								<version>${gmaven.version}</version>
+							</dependency>
+						</dependencies>
+						<configuration>
+							<providerSelection>1.6</providerSelection>
+						</configuration>
+					</plugin>
+
+					<!-- configuration jetty pour serveur de test -->
+					<!-- lancer le serveur jetty : $ mvn jetty:run -->
+					<plugin>
+						<groupId>org.eclipse.jetty</groupId>
+						<artifactId>jetty-maven-plugin</artifactId>
+						<version>${jetty.version}</version>
+						<configuration>
+							<scanIntervalSeconds>10</scanIntervalSeconds>
+							<stopKey>stop</stopKey>
+							<stopPort>9999</stopPort>
+							<webAppSourceDirectory>${webapp.dir}</webAppSourceDirectory>
+							<connectors>
+								<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+									<port>${jetty.port}</port>
+									<maxIdleTime>60000</maxIdleTime>
+								</connector>
+							</connectors>
+						</configuration>
+						<executions>
+							<execution>
+								<id>start-jetty</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>start</goal>
+								</goals>
+								<configuration>
+									<scanIntervalSeconds>0</scanIntervalSeconds>
+									<daemon>true</daemon>
+								</configuration>
+							</execution>
+							<execution>
+								<id>stop-jetty</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>stop</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<!-- configuration bdd de test -->
+					<!-- lancer avec : $ mvn sql:execute -->
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>sql-maven-plugin</artifactId>
+						<version>${sql.maven.plugin.version}</version>
+
+						<dependencies>
+							<dependency>
+								<groupId>com.oracle</groupId>
+								<artifactId>ojdbc14</artifactId>
+								<version>${ojdbc14.version}</version>
+							</dependency>
+						</dependencies>
+
+						<configuration>
+							<driver>oracle.jdbc.driver.OracleDriver</driver>
+							<url>jdbc:oracle:thin:@localhost:1521:cdb</url>
+							<username>tintin</username>
+							<password>milou</password>
+							<delimiter>;</delimiter>
+							<delimiterType>normal</delimiterType>
+							<keepFormat>true</keepFormat>
+							<skip>${maven.test.skip}</skip>
+							<autocommit>false</autocommit>
+						</configuration>
+						<executions>
+							<execution>
+								<id>insert-data</id>
+								<phase>pre-integration-test</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<orderFile>ascending</orderFile>
+									<fileset>
+										<basedir>${basedir}/path/to/sql/files</basedir>
+										<includes>
+											<include>insert-data.sql</include>
+										</includes>
+									</fileset>
+								</configuration>
+							</execution>
+							<execution>
+								<id>drop-data</id>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<orderFile>ascending</orderFile>
+									<fileset>
+										<basedir>${basedir}/path/to/sql/files</basedir>
+										<includes>
+											<include>drop-data.sql</include>
+										</includes>
+									</fileset>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+
+		</profile>
+	</profiles>
 </project>
