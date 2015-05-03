@@ -4,8 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.excilys</groupId>
-		<artifactId>computer-database</artifactId>
-		<version>1.1-Snapshot</version>
+		<artifactId>computer.database</artifactId>
+		<version>1.1.snapshot</version>
 	</parent>
 
 	<artifactId>webapp</artifactId>
@@ -68,12 +68,12 @@
 		</dependency>
 
 
-<dependency>
-	<groupId>org.seleniumhq.selenium</groupId>
-	<artifactId>selenium-java</artifactId>
-	<version>2.45.0</version>
-	<scope>test</scope>
-</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>2.45.0</version>
+			<scope>test</scope>
+		</dependency>
 
 
 
@@ -224,26 +224,23 @@
 						<version>${sql.maven.plugin.version}</version>
 
 						<dependencies>
-						<!-- n'existe pas dans le repo, il est en dur dans le dossier sources à la racine du projet
-							on peut l'ajouter à l'aide de la comande : 
-							$ mvn install:install-file -Dfile=sources/ojdbc14-10.2.0.4.0.jar -DpomFile=sources/ojdbc14-10.2.0.4.0.pom	 -->
 							<dependency>
-								<groupId>com.oracle</groupId>
-								<artifactId>ojdbc14</artifactId>
-								<version>${ojdbc14.version}</version>
+								<groupId>mysql</groupId>
+								<artifactId>mysql-connector-java</artifactId>
+								<version>5.1.30</version>
 							</dependency>
 						</dependencies>
 
 						<configuration>
 							<driver>com.mysql.jdbc.Driver</driver>
-							<url>jdbc:oracle:thin:@localhost:1521:cdb</url>
-							<username>tintin</username>
-							<password>milou</password>
+							<url>jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull</url>
+							<username>admincdb</username>
+							<password>qwerty1234</password>
 							<delimiter>;</delimiter>
 							<delimiterType>normal</delimiterType>
 							<keepFormat>true</keepFormat>
 							<skip>${maven.test.skip}</skip>
-							<autocommit>false</autocommit>
+							<autocommit>false</autocommit>							
 						</configuration>
 						<executions>
 							<execution>
@@ -255,7 +252,7 @@
 								<configuration>
 									<orderFile>ascending</orderFile>
 									<fileset>
-										<basedir>src/test/resources</basedir>
+										<basedir>webapp/src/test/resources</basedir>
 										<includes>
 											<include>1-SCHEMA.sql</include>
 											<include>2-PRIVILEGES.sql</include>
@@ -273,7 +270,7 @@
 								<configuration>
 									<orderFile>ascending</orderFile>
 									<fileset>
-										<basedir>${webapp.dir}/test/resources</basedir>
+										<basedir>webapp/src/test/resources</basedir>
 										<includes>
 											<include>drop-data.sql</include>
 										</includes>

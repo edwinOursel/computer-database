@@ -5,8 +5,8 @@
 	<packaging>war</packaging>
 	<parent>
 		<groupId>com.excilys</groupId>
-		<artifactId>computer-database</artifactId>
-		<version>1.1-Snapshot</version>
+		<artifactId>computer.database</artifactId>
+		<version>1.1.snapshot</version>
 	</parent>
 
 	<artifactId>console</artifactId>

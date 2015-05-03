@@ -61,7 +61,6 @@ public class AddComputer {
         long companyId = computer.getCompanyId();
         logger.debug("name : " + name  + " introduced : " + introduced + " discontinued : " +  discontinued + " companyId : " + companyId);
         
-        
         if (validationResult.hasErrors()) {
         	for (FieldError e : validationResult.getFieldErrors()) {
         		redirectAttrs.addFlashAttribute(e.getField(), messageSource.getMessage(e.getField() + "Nok", null, locale));
