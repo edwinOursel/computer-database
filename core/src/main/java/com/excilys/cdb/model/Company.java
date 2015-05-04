@@ -21,7 +21,7 @@ public class Company {
 	@NotEmpty
 	private String name;
 	
-	//constructeur vide pour Spring Data JPA et Mappers
+	//empty constructor for Spring Data JPA and Mappers
 	public Company() {}
 	
 	public long getId() {
