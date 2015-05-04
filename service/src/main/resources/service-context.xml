@@ -15,7 +15,6 @@
     <context:annotation-config/>
 
     
-<!--     <import resource="classpath*:core-context.xml"/> -->
     <import resource="classpath*:persistence-context.xml"/>
     
     

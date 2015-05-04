@@ -40,8 +40,6 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
 		<property name="packagesToScan" value="com.excilys.cdb.model" />
-		<!-- <property name="persistenceUnitName" value="persistence-unit" /> -->
-		<property name="persistenceXmlLocation" value="classpath*:persistence.xml" />
 	</bean>
 
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"

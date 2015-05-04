@@ -15,7 +15,7 @@ import com.excilys.cdb.persistence.dao.ComputerRepository;
 
 @Component
 @Transactional(rollbackFor=DAOException.class)
-public class ComputerService extends Service {
+public class ComputerService {
 		
 	@Autowired
 	private ComputerRepository repository;
